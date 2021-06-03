@@ -45,6 +45,7 @@ public class Main {
 
 
 		BufferStrategy bufferStrategy;
+		//TODO change this to opengl
 		Graphics graphics;
 
 

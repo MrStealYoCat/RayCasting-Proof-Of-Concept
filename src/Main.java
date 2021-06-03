@@ -66,12 +66,6 @@ public class Main {
 			graphics.dispose();
 			bufferStrategy.show();
 
-			// Sleep for 1/60 of a second (60 fps)
-//			try {
-//				Thread.sleep(17);
-//			} catch (InterruptedException e) {
-//				e.getMessage();
-//			}
 		}
 	}
 }

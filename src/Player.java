@@ -3,19 +3,19 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
-	private int rotation = 0;
-	private int wallSize = 100;
-	int rayCount = 180;
-	double startRays; // = 45 + rotation;
-	double endRays; // = -45 + rotation;
-	double rayDistanceBetween; // = (startRays-endRays)/(rayCount-1);
-	Ray[] rays = new Ray[rayCount];
-	int[][] map;
+	private int rotation = -90;
+	private final int rayCount = 90;
+	private double startRays; // = 45 + rotation;
+	private double endRays; // = -45 + rotation;
+	private double rayDistanceBetween; // = (startRays-endRays)/(rayCount-1);
+	private Ray[] rays = new Ray[rayCount];
+	private int[][] map;
+	private final int wallSize = 100;
 
 	public Player(int size, int posX, int posY, int[][] map) {
 		super(size, posX, posY);
 		this.map = map;
-		calculateRays(map);
+		calculateRays();
 	}
 
 	public void rayGen() {
@@ -26,9 +26,10 @@ public class Player extends Sprite {
 
 	/* Only should be called when moving or basically when location
 	 * or rotation of the rays change. Goes through each ray and calculates
-	 * everything needed to draw them.
+	 * everything needed to draw them. Found that this calculation has
+	 * heavy CPU usage.
 	 */
-	public void calculateRays(int[][] map) {
+	public void calculateRays() {
 		renewRotation();
 		rayGen();
 		for (Ray r : rays) {
@@ -36,7 +37,7 @@ public class Player extends Sprite {
 				System.out.println(r.getLastX() + " : " + r.getLastY());
 				r.setLastX(r.getLastX() + r.getRun());
 				r.setLastY(r.getLastY() + r.getRise());
-				if (didCollide((int)r.getLastX(),(int)r.getLastY(),map))
+				if (didCollide((int)r.getLastX(),(int)r.getLastY()))
 					break;
 			}
 		}
@@ -49,21 +50,7 @@ public class Player extends Sprite {
 		}
 	}
 
-	public void drawWalls(Graphics graphics, Window window) {
-		int wallHeight = 50;
-		graphics.setColor(Color.GREEN);
-		for (int i=rays.length-1;i>=0;i--) {
-			double viewedWallHeight = 1.0* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
-			graphics.fillRect(
-							(rays.length-1-i)*((window.getWidth()/2)/rays.length)+map[0].length*wallSize,
-							(window.getHeight()/2)-(int)(viewedWallHeight/2),
-							((window.getWidth()/2)/rays.length),
-							(int)viewedWallHeight
-			);
-		}
-	}
-
-	public boolean didCollide(int colliderX, int colliderY, int[][] map) {
+	public boolean didCollide(int colliderX, int colliderY) {
 		for (int i=0; i<map.length;i++) {
 			for (int j=0; j<map[i].length; j++) {
 				int y = i*wallSize;
@@ -87,38 +74,63 @@ public class Player extends Sprite {
 	}
 
 	public void drawPlayer(Graphics graphics) {
-		graphics.setColor(Color.RED);
+		graphics.setColor(Color.GREEN);
 		graphics.fillOval(posX-size/2,posY-size/2,size,size);
+	}
+
+	public void drawWalls(Graphics graphics, Window window) {
+
+		// 2D Walls to the left
+		graphics.setColor(Color.WHITE);
+		for (int i=0; i<map.length; i++) {
+			for (int j=0; j<map[i].length; j++) {
+				if (map[i][j] == 1)
+					graphics.fillRect(wallSize*j,wallSize*i,wallSize,wallSize);
+			}
+		}
+
+		// 3D walls to the right
+		int wallHeight = 50;
+		graphics.setColor(Color.GREEN);
+		for (int i=rays.length-1;i>=0;i--) {
+			double viewedWallHeight = 1.0* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
+			graphics.fillRect(
+							(rays.length-1-i)*((window.getWidth()/2)/rays.length)+map[0].length*wallSize,
+							(window.getHeight()/2)-(int)(viewedWallHeight/2),
+							((window.getWidth()/2)/rays.length),
+							(int)viewedWallHeight
+			);
+		}
 	}
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
-			if (posX >= size/2) {
-				posX -= 10;
-				calculateRays(map);
+			if (!didCollide(posX-size/2,posY)) {
+				posX -= 1;
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
-			if (posX <= map[0].length*wallSize-size/2) {
-				posX += 10;
-				calculateRays(map);
+			if (!didCollide(posX+size/2,posY)) {
+				posX += 1;
+				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_W)
-			if (posY >= size/2) {
-				posY -= 10;
-				calculateRays(map);
+		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
+			if (!didCollide(posX,posY+size/2)) {
+				posY += 1;
+				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_S)
-			if (posY <= map.length*100-size) {
-				posY += 10;
-				calculateRays(map);
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W)
+			if (!didCollide(posX,posY-size/2)) {
+				posY -= 1;
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_Q) {
 			rotation -= 5;
-			calculateRays(map);
+			calculateRays();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			rotation += 5;
-			calculateRays(map);
+			calculateRays();
 		}
 	}
 
@@ -130,9 +142,5 @@ public class Player extends Sprite {
 
 	public Ray[] getRays() {
 		return rays;
-	}
-
-	public double getRayDistanceBetween() {
-		return rayDistanceBetween;
 	}
 }

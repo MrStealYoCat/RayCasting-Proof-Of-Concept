@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,11 +6,9 @@ import java.awt.image.BufferStrategy;
 public class Main {
 	public static void main(String[] args) {
 		int wallSize = 100;
-		int offset = 0;
 		Window window = new Window("My Window", 2000, 1000);
 
-
-		int[][] map = {
+		int[][] mapArray = {
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,0,0,1},
 			{1,0,0,0,1,1,0,0,0,1},
@@ -24,7 +21,7 @@ public class Main {
 			{1,1,1,1,1,1,1,1,1,1}
 		};
 
-		Player player = new Player(50,3*wallSize,6*wallSize,map);
+		Player player = new Player(50,3*wallSize,6*wallSize,mapArray);
 
 		window.getFrame().addKeyListener(new KeyListener() {
 			@Override
@@ -43,6 +40,10 @@ public class Main {
 		});
 		window.getFrame().setFocusable(true);
 
+
+
+
+
 		BufferStrategy bufferStrategy;
 		Graphics graphics;
 
@@ -55,30 +56,21 @@ public class Main {
 			graphics.setColor(Color.BLACK);
 			graphics.fillRect(0,0, window.getWidth(), window.getHeight());
 
-
-			graphics.setColor(Color.WHITE);
-
-			for (int i=0; i<map.length; i++) {
-				for (int j=0; j<map[i].length; j++) {
-					if (map[i][j] == 1)
-						graphics.fillRect(wallSize*j+offset,wallSize*i+offset,wallSize,wallSize);
-				}
-			}
-
-
+			player.drawWalls(graphics,window);
 			player.drawPlayer(graphics);
 			player.drawRays(graphics);
-			player.drawWalls(graphics,window);
+			//map.drawWalls(graphics,window, player.getRays());
+
 
 			graphics.dispose();
 			bufferStrategy.show();
 
 			// Sleep for 1/60 of a second (60 fps)
-			try {
-				Thread.sleep(17);
-			} catch (InterruptedException e) {
-				e.getMessage();
-			}
+//			try {
+//				Thread.sleep(17);
+//			} catch (InterruptedException e) {
+//				e.getMessage();
+//			}
 		}
 	}
 }

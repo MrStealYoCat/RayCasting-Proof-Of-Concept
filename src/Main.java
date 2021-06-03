@@ -45,7 +45,7 @@ public class Main {
 
 
 		BufferStrategy bufferStrategy;
-		//TODO change this to opengl
+		//TODO change this to java2D
 		Graphics graphics;
 
 

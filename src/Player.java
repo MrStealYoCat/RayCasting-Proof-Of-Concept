@@ -15,7 +15,7 @@ public class Player extends Sprite {
 	public Player(int size, int posX, int posY, int[][] map) {
 		super(size, posX, posY);
 		this.map = map;
-		calculateRays();
+		//calculateRays();
 	}
 
 	public void rayGen() {
@@ -107,30 +107,30 @@ public class Player extends Sprite {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
 			if (!didCollide(posX-size/2,posY)) {
 				posX -= 1;
-				calculateRays();
+				//calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
 			if (!didCollide(posX+size/2,posY)) {
 				posX += 1;
-				calculateRays();
+				//calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
 			if (!didCollide(posX,posY+size/2)) {
 				posY += 1;
-				calculateRays();
+				//calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W)
 			if (!didCollide(posX,posY-size/2)) {
 				posY -= 1;
-				calculateRays();
+				//calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_Q) {
 			rotation -= 5;
-			calculateRays();
+			//calculateRays();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			rotation += 5;
-			calculateRays();
+			//calculateRays();
 		}
 	}
 

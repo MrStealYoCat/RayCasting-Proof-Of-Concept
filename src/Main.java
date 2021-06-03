@@ -1,3 +1,16 @@
+import org.lwjgl.*;
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.*;
+import org.lwjgl.system.*;
+
+import java.nio.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryUtil.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,6 +20,7 @@ public class Main {
 	public static void main(String[] args) {
 		int wallSize = 100;
 		Window window = new Window("My Window", 2000, 1000);
+
 
 		int[][] mapArray = {
 			{1,1,1,1,1,1,1,1,1,1},
@@ -23,49 +37,58 @@ public class Main {
 
 		Player player = new Player(50,3*wallSize,6*wallSize,mapArray);
 
-		window.getFrame().addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
+		loop(window);
 
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//player.keyReleased(e);
-			}
+		// Free the window callbacks and destroy the window
+		glfwFreeCallbacks(window.getWindowHandle());
+		glfwDestroyWindow(window.getWindowHandle());
 
-			@Override
-			public void keyPressed(KeyEvent e) {
-				player.keyPressed(e);
-			}
-		});
-		window.getFrame().setFocusable(true);
+		// Terminate GLFW and free the error callback
+		glfwTerminate();
+		glfwSetErrorCallback(null).free();
 
 
+//		window.getFrame().addKeyListener(new KeyListener() {
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				//player.keyReleased(e);
+//			}
+//
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				//player.keyPressed(e);
+//			}
+//		});
 
 
 
-		BufferStrategy bufferStrategy;
-		//TODO change this to java2D
-		Graphics graphics;
 
+	}
+	public static void loop(Window window) {
+		// This line is critical for LWJGL's interoperation with GLFW's
+		// OpenGL context, or any context that is managed externally.
+		// LWJGL detects the context that is current in the current thread,
+		// creates the GLCapabilities instance and makes the OpenGL
+		// bindings available for use.
+		GL.createCapabilities();
 
-		while (true) {
+		// Set the clear color
+		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
-			bufferStrategy = window.getCanvas().getBufferStrategy();
-			graphics = bufferStrategy.getDrawGraphics();
+		// Run the rendering loop until the user has attempted to close
+		// the window or has pressed the ESCAPE key.
+		while ( !glfwWindowShouldClose(window.getWindowHandle()) ) {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			graphics.setColor(Color.BLACK);
-			graphics.fillRect(0,0, window.getWidth(), window.getHeight());
+			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 
-			player.drawWalls(graphics,window);
-			player.drawPlayer(graphics);
-			player.drawRays(graphics);
-			//map.drawWalls(graphics,window, player.getRays());
-
-
-			graphics.dispose();
-			bufferStrategy.show();
-
+			// Poll for window events. The key callback above will only be
+			// invoked during this call.
+			glfwPollEvents();
 		}
 	}
 }

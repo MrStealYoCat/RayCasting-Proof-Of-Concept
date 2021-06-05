@@ -40,14 +40,20 @@ public class Player extends Sprite {
 							&& r.getLastY() < map.length*wallSize) {
 				r.setLastX(r.getLastX() + r.getRun());
 				r.setLastY(r.getLastY() + r.getRise());
-				if (didCollide((int)r.getLastX(),(int)r.getLastY()))
+				if (didCollideX((int) r.getLastX(), (int) r.getLastY())) {
+					r.setCollideX(true);
 					break;
+				}
+				if (didCollideY((int)r.getLastX(),(int)r.getLastY())) {
+					r.setCollideX(false);
+					break;
+				}
 			}
 		}
 	}
 
 	/* Used for checking collision with the map with a pair of coordinates */
-	public boolean didCollide(double colliderX, double colliderY) {
+	public boolean didCollideX(double colliderX, double colliderY) {
 		for (int i=0; i<map.length;i++) {
 			for (int j=0; j<map[i].length; j++) {
 				int y = i*wallSize;
@@ -58,10 +64,21 @@ public class Player extends Sprite {
 				// Right of box collision
 				} else if (map[i][j] == 1 && colliderX == x+wallSize && colliderY >= y && colliderY <= y+wallSize) {
 					return true;
+				}
+			}
+		}
+		return false;
+	}
+	/* Used for checking collision with the map with a pair of coordinates */
+	public boolean didCollideY(double colliderX, double colliderY) {
+		for (int i=0; i<map.length;i++) {
+			for (int j=0; j<map[i].length; j++) {
+				int y = i*wallSize;
+				int x = j*wallSize;
 				// Top of box collision
-				} else if (map[i][j] == 1 && colliderY == y && colliderX >= x && colliderX <= x+wallSize) {
+				if (map[i][j] == 1 && colliderY == y && colliderX >= x && colliderX <= x+wallSize) {
 					return true;
-				// Bottom of box collision
+					// Bottom of box collision
 				} else if (map[i][j] == 1 && colliderY == y+wallSize && colliderX >= x && colliderX <= x+wallSize) {
 					return true;
 				}
@@ -90,7 +107,11 @@ public class Player extends Sprite {
 			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
 			float y = (float)((height/2.0));
 			glBegin(GL_QUADS);
-			glColor3f(0.0f, 0.0f, 1.0f);
+			if (rays[i].getCollideX()) {
+				glColor3f(0.0f, 0.0f, 1.0f);
+			} else {
+				glColor3f(0.0f, 1.0f, 0.0f);
+			}
 			// Remember to go counter clockwise when rendering so the "face" is towards me
 			glVertex2f(x,y);
 			glVertex2f(x,y-height);
@@ -102,30 +123,26 @@ public class Player extends Sprite {
 
 	/* Checks normal game keys for movement or rotation */
 	public void keyPressed() {
-		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A))
-			if (!didCollide(posX-size/2,posY)) {
-				posX += 5*Math.cos((rotation-90)*3.14159/180);
-				posY += 5*Math.sin((rotation-90)*3.14159/180);
-				calculateRays();
-			}
-		if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D))
-			if (!didCollide(posX+size/2,posY)) {
-				posX += 5*Math.cos((rotation+90)*3.14159/180);
-				posY += 5*Math.sin((rotation+90)*3.14159/180);
-				calculateRays();
-			}
-		if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S))
-			if (!didCollide(posX,posY+size/2)) {
-				posX += 5*Math.cos((rotation+180)*3.14159/180);
-				posY += 5*Math.sin((rotation+180)*3.14159/180);
-				calculateRays();
-			}
-		if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W))
-			if (!didCollide(posX,posY-size/2)) {
-				posX += 5*Math.cos(rotation*3.14159/180);
-				posY += 5*Math.sin(rotation*3.14159/180);
-				calculateRays();
-			}
+		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A)) {
+			posX += 5 * Math.cos((rotation - 90) * 3.14159 / 180);
+			posY += 5 * Math.sin((rotation - 90) * 3.14159 / 180);
+			calculateRays();
+		}
+		if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D)) {
+			posX += 5 * Math.cos((rotation + 90) * 3.14159 / 180);
+			posY += 5 * Math.sin((rotation + 90) * 3.14159 / 180);
+			calculateRays();
+		}
+		if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S)) {
+			posX += 5 * Math.cos((rotation + 180) * 3.14159 / 180);
+			posY += 5 * Math.sin((rotation + 180) * 3.14159 / 180);
+			calculateRays();
+		}
+		if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W)) {
+			posX += 5 * Math.cos(rotation * 3.14159 / 180);
+			posY += 5 * Math.sin(rotation * 3.14159 / 180);
+			calculateRays();
+		}
 		if (KeyListener.isKeyPressed(GLFW_KEY_Q)) {
 			rotation -= 5;
 			calculateRays();

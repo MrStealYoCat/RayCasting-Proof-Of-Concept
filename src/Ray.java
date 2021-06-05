@@ -6,6 +6,7 @@ public class Ray {
 	private double lastY;
 	private double rise;
 	private double run;
+	private boolean collideX;
 
 	public Ray(double startX, double startY, double startAngle) {
 		this.startX = startX;
@@ -32,11 +33,17 @@ public class Ray {
 	public double getDistance() {
 		return Math.sqrt( (startX-lastX)*(startX-lastX) + (startY-lastY)*(startY-lastY) );
 	}
+	public boolean getCollideX() {
+		return collideX;
+	}
 
 	public void setLastX(double lastX) {
 		this.lastX = lastX;
 	}
 	public void setLastY(double lastY) {
 		this.lastY = lastY;
+	}
+	public void setCollideX(boolean collideX) {
+		this.collideX = collideX;
 	}
 }

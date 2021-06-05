@@ -2,7 +2,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyListener {
 	private static KeyListener instance;
-	private boolean keyPressed[] = new boolean[GLFW_KEY_LAST+1];
+	private boolean keyPressed[] = new boolean[GLFW_KEY_LAST+2];
 
 	private KeyListener() {
 

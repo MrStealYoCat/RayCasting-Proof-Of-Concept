@@ -77,6 +77,7 @@ public class Main {
 
 			player.keyPressed();
 			player.mouseMoved();
+			MouseListener.endFrame();
 			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 		}
 	}

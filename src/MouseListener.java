@@ -1,5 +1,4 @@
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
 	private static MouseListener instance;
@@ -9,7 +8,7 @@ public class MouseListener {
 	private double yPos;
 	private double lastX;
 	private double lastY;
-	private boolean[] mouseButtonPressed = new boolean[3];
+	private boolean[] mouseButtonPressed = new boolean[GLFW_MOUSE_BUTTON_LAST+1];
 	private boolean isDragging;
 
 	private MouseListener() {
@@ -28,19 +27,24 @@ public class MouseListener {
 		get().lastY = get().yPos;
 		get().xPos = xPos;
 		get().yPos = yPos;
-		get().isDragging = get().mouseButtonPressed[0] || get().mouseButtonPressed[1] || get().mouseButtonPressed[2];
+		get().isDragging = isPressed();
+	}
+
+	private static boolean isPressed() {
+		for (Boolean button : get().mouseButtonPressed) {
+			if (button) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void mouseButtonCallback(long window, int button, int action, int mods) {
 		if (action == GLFW_PRESS) {
-			if (button < get().mouseButtonPressed.length) {
-				get().mouseButtonPressed[button] = true;
-			}
+			get().mouseButtonPressed[button] = true;
 		} else if (action == GLFW_RELEASE) {
-			if (button < get().mouseButtonPressed.length) {
-				get().mouseButtonPressed[button] = false;
-				get().isDragging = false;
-			}
+			get().mouseButtonPressed[button] = false;
+			get().isDragging = false;
 		}
 	}
 

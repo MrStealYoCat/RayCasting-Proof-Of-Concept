@@ -167,7 +167,7 @@ public class Player extends Sprite {
 
 	public void mouseMoved() {
 		if (MouseListener.getXPos() != 0) {
-			rotation += MouseListener.getDX();
+			rotation -= MouseListener.getDX()/2;
 			calculateRays();
 		}
 	}

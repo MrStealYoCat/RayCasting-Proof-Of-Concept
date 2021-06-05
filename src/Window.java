@@ -43,11 +43,13 @@ public class Window {
 		if ( windowHandle == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
+		glfwSetCursorPosCallback(windowHandle, MouseListener::mousePosCallback);
+		glfwSetMouseButtonCallback(windowHandle, MouseListener::mouseButtonCallback);
+		glfwSetScrollCallback(windowHandle, MouseListener::mouseScrollCallback);
+		glfwSetKeyCallback(windowHandle, KeyListener::keyCallback);
+
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
-		glfwSetKeyCallback(windowHandle, (windowHandle, key, scancode, action, mods) -> {
-			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-				glfwSetWindowShouldClose(windowHandle, true); // We will detect this in the rendering loop
-		});
+		//glfwSetKeyCallback(windowHandle, (windowHandle, key, scancode, action, mods) -> {});
 
 		// Get the thread stack and push a new frame
 		try ( MemoryStack stack = stackPush() ) {

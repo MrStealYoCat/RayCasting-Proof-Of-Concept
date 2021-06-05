@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Player extends Sprite {
 
 	private int rotation = -90;
-	private final int rayCount = 90;
+	private final int rayCount = 180;
 	private double startRays; // = 45 + rotation;
 	private double endRays; // = -45 + rotation;
 	private double rayDistanceBetween; // = (startRays-endRays)/(rayCount-1);
@@ -109,10 +109,10 @@ public class Player extends Sprite {
 		for (int i=rays.length-1;i>=0;i--) {
 			//double viewedWallHeight = 0.002* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
 			float width =(float)(2.0/rays.length);
-			float height = (float)(100.0/rays[i].getDistance()*4);
+			float height = (float)(50.0/rays[i].getDistance()*4);
 			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
-			float y = (float)((1.0)-(height/2.0));
-			System.out.printf("x: %f, y: %f, width: %f, height: %f\n", x, y, width, height);
+			float y = (float)((height/2.0));
+			//System.out.printf("x: %f, y: %f, width: %f, height: %f\n", x, y, width, height);
 			glBegin(GL_QUADS);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			// Remember to go counter clockwise when rendering so the "face" is towards me
@@ -130,32 +130,32 @@ public class Player extends Sprite {
 		}
 	}
 
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
+	public void keyPressed() {
+		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A))
 			if (!didCollide(posX-size/2,posY)) {
-				posX -= 1;
+				posX -= 5;
 				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
+		if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D))
 			if (!didCollide(posX+size/2,posY)) {
-				posX += 1;
+				posX += 5;
 				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
+		if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S))
 			if (!didCollide(posX,posY+size/2)) {
-				posY += 1;
+				posY += 5;
 				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W)
+		if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W))
 			if (!didCollide(posX,posY-size/2)) {
-				posY -= 1;
+				posY -= 5;
 				calculateRays();
 			}
-		if (e.getKeyCode() == KeyEvent.VK_Q) {
+		if (KeyListener.isKeyPressed(GLFW_KEY_Q)) {
 			rotation -= 5;
 			calculateRays();
 		}
-		if (e.getKeyCode() == KeyEvent.VK_E) {
+		if (KeyListener.isKeyPressed(GLFW_KEY_E)) {
 			rotation += 5;
 			calculateRays();
 		}

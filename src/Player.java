@@ -1,8 +1,3 @@
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import org.lwjgl.opengl.*;
-
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -23,6 +18,7 @@ public class Player extends Sprite {
 		calculateRays();
 	}
 
+	/* Generates the ray array used for just about everything else */
 	public void rayGen() {
 		for (int i=0;i<rays.length;i++) {
 			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
@@ -38,8 +34,10 @@ public class Player extends Sprite {
 		renewRotation();
 		rayGen();
 		for (Ray r : rays) {
-			while (r.getLastX() > 0.0 && r.getLastX() < map[0].length*wallSize && r.getLastY() > 0.0 && r.getLastY() < map.length*wallSize) {
-				//System.out.println(r.getLastX() + " : " + r.getLastY());
+			while (r.getLastX() > 0.0
+							&& r.getLastX() < map[0].length*wallSize
+							&& r.getLastY() > 0.0
+							&& r.getLastY() < map.length*wallSize) {
 				r.setLastX(r.getLastX() + r.getRun());
 				r.setLastY(r.getLastY() + r.getRise());
 				if (didCollide((int)r.getLastX(),(int)r.getLastY()))
@@ -47,13 +45,8 @@ public class Player extends Sprite {
 			}
 		}
 	}
-	// unused for now
-	public void drawRays(Graphics graphics) {
-		for (Ray r : rays) {
-			//graphics.drawLine((int)r.getStartX(),(int)r.getStartY(),(int)r.getLastX(),(int)r.getLastY());
-		}
-	}
 
+	/* Used for checking collision with the map with a pair of coordinates */
 	public boolean didCollide(double colliderX, double colliderY) {
 		for (int i=0; i<map.length;i++) {
 			for (int j=0; j<map[i].length; j++) {
@@ -76,22 +69,9 @@ public class Player extends Sprite {
 		}
 		return false;
 	}
-	// Unused for now
-	public void drawPlayer(Graphics graphics) {
-		//graphics.setColor(Color.GREEN);
-		//graphics.fillOval(posX-size/2,posY-size/2,size,size);
-	}
 
-	public void drawWalls(Window window) {
-
-//		// 2D Walls to the left
-//		graphics.setColor(Color.WHITE);
-//		for (int i=0; i<map.length; i++) {
-//			for (int j=0; j<map[i].length; j++) {
-//				if (map[i][j] == 1)
-//					graphics.fillRect(wallSize*j,wallSize*i,wallSize,wallSize);
-//			}
-//		}
+	/* Function used to draw "3D" walls around the player object. Uses openGL. */
+	public void drawWalls() {
 
 		// Have to use floats as other functions are deprecated
 		//glBegin(GL_QUADS); // Start to get a set of 4 vertices for a rectangle
@@ -104,15 +84,11 @@ public class Player extends Sprite {
 
 
 		// 3D walls
-		//int wallHeight = 50;
-		//graphics.setColor(Color.GREEN);
 		for (int i=rays.length-1;i>=0;i--) {
-			//double viewedWallHeight = 0.002* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
 			float width =(float)(2.0/rays.length);
 			float height = (float)(50.0/rays[i].getDistance()*4);
 			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
 			float y = (float)((height/2.0));
-			//System.out.printf("x: %f, y: %f, width: %f, height: %f\n", x, y, width, height);
 			glBegin(GL_QUADS);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			// Remember to go counter clockwise when rendering so the "face" is towards me
@@ -121,15 +97,10 @@ public class Player extends Sprite {
 			glVertex2f(x+width,y-height);
 			glVertex2f(x+width,y);
 			glEnd();
-			/*graphics.fillRect(
-							(rays.length-1-i)*((window.getWidth()/2)/rays.length)+map[0].length*wallSize,
-							(window.getHeight()/2)-(int)(viewedWallHeight/2),
-							((window.getWidth()/2)/rays.length),
-							(int)viewedWallHeight
-			);*/
 		}
 	}
 
+	/* Checks normal game keys for movement or rotation */
 	public void keyPressed() {
 		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A))
 			if (!didCollide(posX-size/2,posY)) {
@@ -165,6 +136,7 @@ public class Player extends Sprite {
 		}
 	}
 
+	/* Check is mouse has been moved on the x plane for player rotation */
 	public void mouseMoved() {
 		if (MouseListener.getXPos() != 0) {
 			rotation -= MouseListener.getDX()/2;
@@ -172,14 +144,12 @@ public class Player extends Sprite {
 		}
 	}
 
+	/* Helper method for making sure variables regarding rotation are up to date
+	 * and correct */
 	public void renewRotation() {
 		rotation = rotation % 360;
 		startRays = 60 + rotation;
 		endRays = -60 + rotation;
 		rayDistanceBetween = (startRays-endRays)/(rayCount-1);
-	}
-
-	public Ray[] getRays() {
-		return rays;
 	}
 }

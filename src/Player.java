@@ -1,5 +1,10 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import org.lwjgl.opengl.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Player extends Sprite {
 
@@ -15,7 +20,7 @@ public class Player extends Sprite {
 	public Player(int size, int posX, int posY, int[][] map) {
 		super(size, posX, posY);
 		this.map = map;
-		//calculateRays();
+		calculateRays();
 	}
 
 	public void rayGen() {
@@ -42,11 +47,10 @@ public class Player extends Sprite {
 			}
 		}
 	}
-
+	// unused for now
 	public void drawRays(Graphics graphics) {
-		graphics.setColor(Color.RED);
 		for (Ray r : rays) {
-			graphics.drawLine((int)r.getStartX(),(int)r.getStartY(),(int)r.getLastX(),(int)r.getLastY());
+			//graphics.drawLine((int)r.getStartX(),(int)r.getStartY(),(int)r.getLastX(),(int)r.getLastY());
 		}
 	}
 
@@ -72,34 +76,57 @@ public class Player extends Sprite {
 		}
 		return false;
 	}
-
+	// Unused for now
 	public void drawPlayer(Graphics graphics) {
-		graphics.setColor(Color.GREEN);
-		graphics.fillOval(posX-size/2,posY-size/2,size,size);
+		//graphics.setColor(Color.GREEN);
+		//graphics.fillOval(posX-size/2,posY-size/2,size,size);
 	}
 
-	public void drawWalls(Graphics graphics, Window window) {
+	public void drawWalls(Window window) {
 
-		// 2D Walls to the left
-		graphics.setColor(Color.WHITE);
-		for (int i=0; i<map.length; i++) {
-			for (int j=0; j<map[i].length; j++) {
-				if (map[i][j] == 1)
-					graphics.fillRect(wallSize*j,wallSize*i,wallSize,wallSize);
-			}
-		}
+//		// 2D Walls to the left
+//		graphics.setColor(Color.WHITE);
+//		for (int i=0; i<map.length; i++) {
+//			for (int j=0; j<map[i].length; j++) {
+//				if (map[i][j] == 1)
+//					graphics.fillRect(wallSize*j,wallSize*i,wallSize,wallSize);
+//			}
+//		}
 
-		// 3D walls to the right
-		int wallHeight = 50;
-		graphics.setColor(Color.GREEN);
+		// Have to use floats as other functions are deprecated
+		//glBegin(GL_QUADS); // Start to get a set of 4 vertices for a rectangle
+		//glColor3f(1.0f, 0.0f, 0.0f); // red
+			/*
+			 In openGL coordinates min,max are (-1.0,1.0) for both axis
+			 regardless of window size. This means that the width can be stretched
+			 if not calculated properly.
+			*/
+
+
+		// 3D walls
+		//int wallHeight = 50;
+		//graphics.setColor(Color.GREEN);
 		for (int i=rays.length-1;i>=0;i--) {
-			double viewedWallHeight = 1.0* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
-			graphics.fillRect(
+			//double viewedWallHeight = 0.002* window.getHeight()*wallHeight/rays[i].getDistance()*4.0;
+			float width =(float)(2.0/rays.length);
+			float height = (float)(100.0/rays[i].getDistance()*4);
+			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
+			float y = (float)((1.0)-(height/2.0));
+			System.out.printf("x: %f, y: %f, width: %f, height: %f\n", x, y, width, height);
+			glBegin(GL_QUADS);
+			glColor3f(0.0f, 0.0f, 1.0f);
+			// Remember to go counter clockwise when rendering so the "face" is towards me
+			glVertex2f(x,y);
+			glVertex2f(x,y-height);
+			glVertex2f(x+width,y-height);
+			glVertex2f(x+width,y);
+			glEnd();
+			/*graphics.fillRect(
 							(rays.length-1-i)*((window.getWidth()/2)/rays.length)+map[0].length*wallSize,
 							(window.getHeight()/2)-(int)(viewedWallHeight/2),
 							((window.getWidth()/2)/rays.length),
 							(int)viewedWallHeight
-			);
+			);*/
 		}
 	}
 
@@ -107,30 +134,30 @@ public class Player extends Sprite {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A)
 			if (!didCollide(posX-size/2,posY)) {
 				posX -= 1;
-				//calculateRays();
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D)
 			if (!didCollide(posX+size/2,posY)) {
 				posX += 1;
-				//calculateRays();
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S)
 			if (!didCollide(posX,posY+size/2)) {
 				posY += 1;
-				//calculateRays();
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W)
 			if (!didCollide(posX,posY-size/2)) {
 				posY -= 1;
-				//calculateRays();
+				calculateRays();
 			}
 		if (e.getKeyCode() == KeyEvent.VK_Q) {
 			rotation -= 5;
-			//calculateRays();
+			calculateRays();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_E) {
 			rotation += 5;
-			//calculateRays();
+			calculateRays();
 		}
 	}
 

@@ -37,18 +37,7 @@ public class Main {
 
 		Player player = new Player(50,3*wallSize,6*wallSize,mapArray);
 
-		loop(window);
-
-		// Free the window callbacks and destroy the window
-		glfwFreeCallbacks(window.getWindowHandle());
-		glfwDestroyWindow(window.getWindowHandle());
-
-		// Terminate GLFW and free the error callback
-		glfwTerminate();
-		glfwSetErrorCallback(null).free();
-
-
-//		window.getFrame().addKeyListener(new KeyListener() {
+//		KeyListener listener = new KeyListener() {
 //			@Override
 //			public void keyTyped(KeyEvent e) {
 //			}
@@ -62,13 +51,21 @@ public class Main {
 //			public void keyPressed(KeyEvent e) {
 //				//player.keyPressed(e);
 //			}
-//		});
+//		};
 
 
 
+		loop(window, mapArray, player);
 
+		// Free the window callbacks and destroy the window
+		glfwFreeCallbacks(window.getWindowHandle());
+		glfwDestroyWindow(window.getWindowHandle());
+
+		// Terminate GLFW and free the error callback
+		glfwTerminate();
+		glfwSetErrorCallback(null).free();
 	}
-	public static void loop(Window window) {
+	public static void loop(Window window, int[][] map, Player player) {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -77,15 +74,17 @@ public class Main {
 		GL.createCapabilities();
 
 		// Set the clear color
-		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while ( !glfwWindowShouldClose(window.getWindowHandle()) ) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
+			player.drawWalls(window);
+			glFlush(); // render now
 
+			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();

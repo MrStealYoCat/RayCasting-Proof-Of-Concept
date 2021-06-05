@@ -1,10 +1,10 @@
 public class Sprite {
 
 	protected int size;
-	protected int posX;
-	protected int posY;
+	protected double posX;
+	protected double posY;
 
-	public Sprite(int size, int posX, int posY) {
+	public Sprite(int size, double posX, double posY) {
 		this.size = size;
 		this.posX = posX;
 		this.posY = posY;
@@ -18,7 +18,7 @@ public class Sprite {
 		this.size = size;
 	}
 
-	public int getPosX() {
+	public double getPosX() {
 		return posX;
 	}
 
@@ -26,7 +26,7 @@ public class Sprite {
 		this.posX = posX;
 	}
 
-	public int getPosY() {
+	public double getPosY() {
 		return posY;
 	}
 

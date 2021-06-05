@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Player extends Sprite {
 
-	private int rotation = -90;
+	private int rotation = 90;
 	private final int rayCount = 180;
 	private double startRays; // = 45 + rotation;
 	private double endRays; // = -45 + rotation;
@@ -54,7 +54,7 @@ public class Player extends Sprite {
 		}
 	}
 
-	public boolean didCollide(int colliderX, int colliderY) {
+	public boolean didCollide(double colliderX, double colliderY) {
 		for (int i=0; i<map.length;i++) {
 			for (int j=0; j<map[i].length; j++) {
 				int y = i*wallSize;
@@ -133,22 +133,26 @@ public class Player extends Sprite {
 	public void keyPressed() {
 		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A))
 			if (!didCollide(posX-size/2,posY)) {
-				posX -= 5;
+				posX += 5*Math.cos(1.0*(rotation));
+				posY += 5*Math.sin(1.0*(rotation));
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D))
 			if (!didCollide(posX+size/2,posY)) {
-				posX += 5;
+				posX += 5*Math.cos(1.0*(rotation));
+				posY += 5*Math.sin(1.0*(rotation));
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S))
 			if (!didCollide(posX,posY+size/2)) {
-				posY += 5;
+				posX += 5*Math.cos(1.0*(rotation));
+				posY += 5*Math.sin(1.0*(rotation));
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W))
 			if (!didCollide(posX,posY-size/2)) {
-				posY -= 5;
+				posX += 5*Math.cos(1.0*(rotation));
+				posY += 5*Math.sin(1.0*(rotation));
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_Q)) {

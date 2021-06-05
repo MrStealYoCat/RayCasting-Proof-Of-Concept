@@ -3,12 +3,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 public class MouseListener {
 	private static MouseListener instance;
-	private double scrollX = 0.0;
-	private double scrollY = 0.0;
-	private double xPos = 0.0;
-	private double yPos = 0.0;
-	private double lastX = 0.0;
-	private double lastY = 0.0;
+	private double scrollX;
+	private double scrollY;
+	private double xPos;
+	private double yPos;
+	private double lastX;
+	private double lastY;
 	private boolean[] mouseButtonPressed = new boolean[3];
 	private boolean isDragging;
 

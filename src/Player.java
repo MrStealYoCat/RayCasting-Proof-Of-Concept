@@ -39,7 +39,7 @@ public class Player extends Sprite {
 		rayGen();
 		for (Ray r : rays) {
 			while (r.getLastX() > 0.0 && r.getLastX() < map[0].length*wallSize && r.getLastY() > 0.0 && r.getLastY() < map.length*wallSize) {
-				System.out.println(r.getLastX() + " : " + r.getLastY());
+				//System.out.println(r.getLastX() + " : " + r.getLastY());
 				r.setLastX(r.getLastX() + r.getRun());
 				r.setLastY(r.getLastY() + r.getRise());
 				if (didCollide((int)r.getLastX(),(int)r.getLastY()))
@@ -133,26 +133,26 @@ public class Player extends Sprite {
 	public void keyPressed() {
 		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A))
 			if (!didCollide(posX-size/2,posY)) {
-				posX += 5*Math.cos(1.0*(rotation));
-				posY += 5*Math.sin(1.0*(rotation));
+				posX += 5*Math.cos((rotation-90)*3.14159/180);
+				posY += 5*Math.sin((rotation-90)*3.14159/180);
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || KeyListener.isKeyPressed(GLFW_KEY_D))
 			if (!didCollide(posX+size/2,posY)) {
-				posX += 5*Math.cos(1.0*(rotation));
-				posY += 5*Math.sin(1.0*(rotation));
+				posX += 5*Math.cos((rotation+90)*3.14159/180);
+				posY += 5*Math.sin((rotation+90)*3.14159/180);
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_DOWN) || KeyListener.isKeyPressed(GLFW_KEY_S))
 			if (!didCollide(posX,posY+size/2)) {
-				posX += 5*Math.cos(1.0*(rotation));
-				posY += 5*Math.sin(1.0*(rotation));
+				posX += 5*Math.cos((rotation+180)*3.14159/180);
+				posY += 5*Math.sin((rotation+180)*3.14159/180);
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W))
 			if (!didCollide(posX,posY-size/2)) {
-				posX += 5*Math.cos(1.0*(rotation));
-				posY += 5*Math.sin(1.0*(rotation));
+				posX += 5*Math.cos(rotation*3.14159/180);
+				posY += 5*Math.sin(rotation*3.14159/180);
 				calculateRays();
 			}
 		if (KeyListener.isKeyPressed(GLFW_KEY_Q)) {
@@ -165,7 +165,15 @@ public class Player extends Sprite {
 		}
 	}
 
+	public void mouseMoved() {
+		if (MouseListener.getXPos() != 0) {
+			rotation += MouseListener.getDX();
+			calculateRays();
+		}
+	}
+
 	public void renewRotation() {
+		rotation = rotation % 360;
 		startRays = 60 + rotation;
 		endRays = -60 + rotation;
 		rayDistanceBetween = (startRays-endRays)/(rayCount-1);

@@ -76,7 +76,7 @@ public class Main {
 			glFlush(); // render now
 
 			player.keyPressed();
-
+			player.mouseMoved();
 			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 		}
 	}

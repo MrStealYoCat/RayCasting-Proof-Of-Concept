@@ -27,6 +27,9 @@ public class Main {
 
 		loop(window, mapArray, player);
 
+		// Free up cursor after exiting
+		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
 		// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window.getWindowHandle());
 		glfwDestroyWindow(window.getWindowHandle());
@@ -44,6 +47,10 @@ public class Main {
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
 		GL.createCapabilities();
+
+		// Keep mouse inside window and hidden
+		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.

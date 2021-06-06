@@ -11,6 +11,7 @@ public class Player extends Sprite {
 	private Ray[] rays = new Ray[rayCount];
 	private int[][] map;
 	private final int wallSize = 100;
+	private final int wallHeight = 75;
 
 	public Player(int size, int posX, int posY, int[][] map) {
 		super(size, posX, posY);
@@ -34,17 +35,15 @@ public class Player extends Sprite {
 		renewRotation();
 		rayGen();
 		for (Ray r : rays) {
-			while (r.getLastX() > 0.0
-							&& r.getLastX() < map[0].length*wallSize
-							&& r.getLastY() > 0.0
-							&& r.getLastY() < map.length*wallSize) {
+			while (true) {
 				r.setLastX(r.getLastX() + r.getRun());
-				r.setLastY(r.getLastY() + r.getRise());
-				if (didCollideX((int) r.getLastX(), (int) r.getLastY())) {
+				if (didCollideX(r.getLastX(), r.getLastY())) {
+					r.setLastY(r.getLastY() + r.getRise());
 					r.setCollideX(true);
 					break;
 				}
-				if (didCollideY((int)r.getLastX(),(int)r.getLastY())) {
+				r.setLastY(r.getLastY() + r.getRise());
+				if (didCollideY(r.getLastX(),r.getLastY())) {
 					r.setCollideX(false);
 					break;
 				}
@@ -54,35 +53,23 @@ public class Player extends Sprite {
 
 	/* Used for checking collision with the map with a pair of coordinates */
 	public boolean didCollideX(double colliderX, double colliderY) {
-		for (int i=0; i<map.length;i++) {
-			for (int j=0; j<map[i].length; j++) {
-				int y = i*wallSize;
-				int x = j*wallSize;
-				// Left of box collision
-				if (map[i][j] == 1 && colliderX == x && colliderY >= y && colliderY <= y+wallSize) {
-					return true;
-				// Right of box collision
-				} else if (map[i][j] == 1 && colliderX == x+wallSize && colliderY >= y && colliderY <= y+wallSize) {
-					return true;
-				}
-			}
+
+		// Left side of wall
+		if (map[(int)(colliderY/wallSize)][(int)(colliderX/wallSize)] == 1) {
+			return true;
+		}
+		if (map[(int)(colliderY/wallSize)][(int)((colliderX+wallSize)/wallSize)-1] == 1) {
+			return true;
 		}
 		return false;
 	}
 	/* Used for checking collision with the map with a pair of coordinates */
 	public boolean didCollideY(double colliderX, double colliderY) {
-		for (int i=0; i<map.length;i++) {
-			for (int j=0; j<map[i].length; j++) {
-				int y = i*wallSize;
-				int x = j*wallSize;
-				// Top of box collision
-				if (map[i][j] == 1 && colliderY == y && colliderX >= x && colliderX <= x+wallSize) {
-					return true;
-					// Bottom of box collision
-				} else if (map[i][j] == 1 && colliderY == y+wallSize && colliderX >= x && colliderX <= x+wallSize) {
-					return true;
-				}
-			}
+		if (map[(int)(colliderY/wallSize)][(int)(colliderX/wallSize)] == 1) {
+			return true;
+		}
+		if (map[(int)((colliderY+wallSize)/wallSize)-1][(int)(colliderX/wallSize)] == 1) {
+			return true;
 		}
 		return false;
 	}
@@ -103,7 +90,7 @@ public class Player extends Sprite {
 		// 3D walls
 		for (int i=rays.length-1;i>=0;i--) {
 			float width =(float)(2.0/rays.length);
-			float height = (float)(50.0/rays[i].getDistance()*4);
+			float height = (float)(wallHeight/rays[i].getDistance()*4);
 			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
 			float y = (float)((height/2.0));
 			glBegin(GL_QUADS);

@@ -7,15 +7,17 @@ public class Ray {
 	private double rise;
 	private double run;
 	private boolean collideX;
+	private double angle;
 
-	public Ray(double startX, double startY, double startAngle) {
+	public Ray(double startX, double startY, double angle) {
 		this.startX = startX;
 		this.startY = startY;
 		this.lastX = startX;
 		this.lastY = startY;
+		this.angle = angle;
 
-		rise = Math.sin(startAngle*3.14159/180.0);
-		run = Math.cos(startAngle*3.14159/180.0);
+		rise = Math.sin(angle*3.14159/180.0);
+		run = Math.cos(angle*3.14159/180.0);
 	}
 
 	public double getLastX() {
@@ -35,6 +37,9 @@ public class Ray {
 	}
 	public boolean getCollideX() {
 		return collideX;
+	}
+	public double getAngle() {
+		return angle;
 	}
 
 	public void setLastX(double lastX) {

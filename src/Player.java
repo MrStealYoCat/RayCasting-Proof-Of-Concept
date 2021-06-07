@@ -4,11 +4,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class Player extends Sprite {
 
 	private int rotation = 90;
-	private final int rayCount = 180;
-	private double startRays; // = 45 + rotation;
-	private double endRays; // = -45 + rotation;
-	private double rayDistanceBetween; // = (startRays-endRays)/(rayCount-1);
-	private Ray[] rays = new Ray[rayCount];
+	private static final int RAY_COUNT = 180;
+	private Ray[] rays = new Ray[RAY_COUNT];
 	private int[][] map;
 	private final int wallSize = 100;
 	private final int wallHeight = 75;
@@ -19,24 +16,17 @@ public class Player extends Sprite {
 		calculateRays();
 	}
 
-	/* Generates the ray array used for just about everything else */
-	public void rayGen() {
-		for (int i=0;i<rays.length;i++) {
-			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
-		}
-	}
-
 	/* Only should be called when moving or basically when location
 	 * or rotation of the rays change. Goes through each ray and calculates
 	 * everything needed to draw them. Found that this calculation has
 	 * heavy CPU usage.
 	 */
 	public void calculateRays() {
-		renewRotation();
-		rayGen();
+		rays = Ray.rayGen(rotation, posX, posY, RAY_COUNT);
 		for (Ray r : rays) {
 			while (true) {
 				r.setLastX(r.getLastX() + r.getRun());
+
 				if (didCollide(r.getLastX(), r.getLastY())) {
 					r.setLastY(r.getLastY() + r.getRise());
 					r.setCollideX(true);
@@ -53,18 +43,13 @@ public class Player extends Sprite {
 
 	/* Used for checking collision with the map with a pair of coordinates */
 	public boolean didCollide(double colliderX, double colliderY) {
-
-		// Left side of wall
-		if (map[(int)(colliderY/wallSize)][(int)(colliderX/wallSize)] == 1) {
-			return true;
-		}
-		if (map[(int)(colliderY/wallSize)][(int)((colliderX+wallSize)/wallSize)-1] == 1) {
-			return true;
-		}
-		if (map[(int)((colliderY+wallSize)/wallSize)-1][(int)(colliderX/wallSize)] == 1) {
-			return true;
-		}
-		return false;
+		return
+			// Left and top of 2D box
+			map[(int)(colliderY/wallSize)][(int)(colliderX/wallSize)] == 1
+			// Right of 2D box
+	 || map[(int)(colliderY/wallSize)][(int)((colliderX+wallSize)/wallSize)-1] == 1
+			// Bottom of 2D box
+	 || map[(int)((colliderY+wallSize)/wallSize)-1][(int)(colliderX/wallSize)] == 1;
 	}
 
 	/* Function used to draw "3D" walls around the player object. Uses openGL. */
@@ -154,17 +139,9 @@ public class Player extends Sprite {
 	/* Check is mouse has been moved on the x plane for player rotation */
 	public void mouseMoved() {
 		if (MouseListener.getXPos() != 0) {
-			rotation -= MouseListener.getDX()/2;
+			rotation = (rotation - (int)(MouseListener.getDX()/2)) % 360;
+			System.out.println(rotation);
 			calculateRays();
 		}
-	}
-
-	/* Helper method for making sure variables regarding rotation are up to date
-	 * and correct */
-	public void renewRotation() {
-		rotation = rotation % 360;
-		startRays = 60 + rotation;
-		endRays = -60 + rotation;
-		rayDistanceBetween = (startRays-endRays)/(rayCount-1);
 	}
 }

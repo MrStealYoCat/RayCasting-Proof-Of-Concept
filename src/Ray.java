@@ -1,5 +1,16 @@
 public class Ray {
 
+	/* Generates the ray array used for just about everything else */
+	public static Ray[] rayGen(int rotation, double posX, double posY, int rayCount) {
+		Ray[] rays = new Ray[rayCount];
+		int startRays = 60 + rotation;
+		int endRays = -60 + rotation;
+		double rayDistanceBetween = 1.0*(startRays-endRays)/(rayCount -1);
+		for (int i=0;i<rays.length;i++) {
+			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
+		}
+		return rays;
+	}
 	private double startX;
 	private double startY;
 	private double lastX;

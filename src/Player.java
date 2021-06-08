@@ -1,5 +1,4 @@
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 
 public class Player extends Sprite {
 
@@ -44,9 +43,5 @@ public class Player extends Sprite {
 			rotation = (rotation - (int)(MouseListener.getDX()/2)) % 360;
 			Ray.processRays(rotation, posX, posY, RAY_COUNT, map);
 		}
-	}
-
-	public void processRays() {
-		Ray.processRays(rotation, posX, posY, RAY_COUNT, map);
 	}
 }

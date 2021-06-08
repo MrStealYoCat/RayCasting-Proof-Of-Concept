@@ -57,16 +57,4 @@ public class Map {
 		}
 		glFlush(); // render now
 	}
-
-	public static int getWallSize() {
-		return WALL_SIZE;
-	}
-
-	public static int getWallHeight() {
-		return WALL_HEIGHT;
-	}
-
-	public int[][] getMapArray() {
-		return mapArray;
-	}
 }

@@ -74,9 +74,6 @@ public class Ray {
 	public boolean getCollideX() {
 		return collideX;
 	}
-	public double getRotation() {
-		return rotation;
-	}
 
 	public void setLastX(double lastX) {
 		this.lastX = lastX;

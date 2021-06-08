@@ -23,9 +23,11 @@ public class Main {
 			{1,1,1,1,1,1,1,1,1,1}
 		};
 
-		Player player = new Player(50,3*wallSize,6*wallSize,mapArray);
+		Map map = new Map(mapArray);
 
-		loop(window, mapArray, player);
+		Player player = new Player(50,3*wallSize,6*wallSize, map);
+
+		loop(window, player);
 
 		// Free up cursor after exiting
 		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -40,13 +42,14 @@ public class Main {
 	}
 
 	/* Game Loop Function */
-	public static void loop(Window window, int[][] map, Player player) {
+	public static void loop(Window window, Player player) {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
 		GL.createCapabilities();
+		player.processRays();
 
 		// Keep mouse inside window and hidden
 		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -59,16 +62,10 @@ public class Main {
 			// invoked during this call.
 			glfwPollEvents();
 
-			// Set the clear color
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-			player.drawWalls();
-			glFlush(); // render now
-
 			player.keyPressed();
 			player.mouseMoved();
 			MouseListener.endFrame();
+
 			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 		}
 	}

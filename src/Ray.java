@@ -1,7 +1,14 @@
 public class Ray {
 
-	/* Generates the ray array used for just about everything else */
-	public static Ray[] rayGen(int rotation, double posX, double posY, int rayCount) {
+	/* Generates the ray array used for just about everything else
+	*/
+	/* Only should be called when moving or basically when location
+	 * or rotation of the rays change. Goes through each ray and calculates
+	 * everything needed to draw them. Found that this calculation has
+	 * heavy CPU usage.
+	*/
+	public static void processRays(int rotation, double posX, double posY, int rayCount, Map map) {
+		// Generate rays
 		Ray[] rays = new Ray[rayCount];
 		int startRays = 60 + rotation;
 		int endRays = -60 + rotation;
@@ -9,8 +16,26 @@ public class Ray {
 		for (int i=0;i<rays.length;i++) {
 			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
 		}
-		return rays;
+		// Calculate collision
+		for (Ray r : rays) {
+			while (true) {
+				r.setLastX(r.getLastX() + r.getRun());
+
+				if (map.didCollide(r.getLastX(), r.getLastY())) {
+					r.setLastY(r.getLastY() + r.getRise());
+					r.setCollideX(true);
+					break;
+				}
+				r.setLastY(r.getLastY() + r.getRise());
+				if (map.didCollide(r.getLastX(),r.getLastY())) {
+					r.setCollideX(false);
+					break;
+				}
+			}
+		}
+		map.drawWalls(rays);
 	}
+
 	private double startX;
 	private double startY;
 	private double lastX;
@@ -18,17 +43,17 @@ public class Ray {
 	private double rise;
 	private double run;
 	private boolean collideX;
-	private double angle;
+	private double rotation;
 
-	public Ray(double startX, double startY, double angle) {
+	public Ray(double startX, double startY, double rotation) {
 		this.startX = startX;
 		this.startY = startY;
 		this.lastX = startX;
 		this.lastY = startY;
-		this.angle = angle;
+		this.rotation = rotation;
 
-		rise = Math.sin(angle*3.14159/180.0);
-		run = Math.cos(angle*3.14159/180.0);
+		rise = Math.sin(rotation *3.14159/180.0);
+		run = Math.cos(rotation *3.14159/180.0);
 	}
 
 	public double getLastX() {
@@ -49,8 +74,8 @@ public class Ray {
 	public boolean getCollideX() {
 		return collideX;
 	}
-	public double getAngle() {
-		return angle;
+	public double getRotation() {
+		return rotation;
 	}
 
 	public void setLastX(double lastX) {

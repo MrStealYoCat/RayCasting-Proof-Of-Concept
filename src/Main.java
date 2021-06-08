@@ -2,6 +2,7 @@ import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 
 public class Main {
 	public static void main(String[] args) {
@@ -48,6 +49,9 @@ public class Main {
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
 		GL.createCapabilities();
+
+		// Set the clear color
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		// Keep mouse inside window and hidden
 		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);

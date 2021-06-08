@@ -15,8 +15,12 @@ public class Player extends Sprite {
 	/* Checks normal game keys for movement or rotation */
 	public void keyPressed() {
 		if (map.didCollide(posX, posY)) {
+			posX = lastX;
+			posY = lastY;
 			return;
 		}
+		lastX = posX;
+		lastY = posY;
 		if (KeyListener.isKeyPressed(GLFW_KEY_LEFT) || KeyListener.isKeyPressed(GLFW_KEY_A)) {
 			posX += 5 * Math.cos((rotation - 90) * 3.14159 / 180);
 			posY += 5 * Math.sin((rotation - 90) * 3.14159 / 180);

@@ -7,7 +7,7 @@ public class Ray {
 	 * everything needed to draw them. Found that this calculation has
 	 * heavy CPU usage.
 	*/
-	public static void processRays(int rotation, double posX, double posY, int rayCount, Map map) {
+	public static Ray[] processRays(int rotation, double posX, double posY, int rayCount, Map map) {
 		// Generate rays
 		Ray[] rays = new Ray[rayCount];
 		int startRays = 60 + rotation;
@@ -33,15 +33,15 @@ public class Ray {
 				}
 			}
 		}
-		map.drawWalls(rays);
+		return rays;
 	}
 
-	private double startX;
-	private double startY;
+	private final double startX;
+	private final double startY;
 	private double lastX;
 	private double lastY;
-	private double rise;
-	private double run;
+	private final double rise;
+	private final double run;
 	private boolean collideX;
 	private double rotation;
 

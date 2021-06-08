@@ -2,11 +2,11 @@ import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
 public class Main {
 	public static void main(String[] args) {
-		int wallSize = 100;
 		Window window = new Window("My Window", 1000, 1000);
 
 
@@ -25,6 +25,7 @@ public class Main {
 
 		Map map = new Map(mapArray);
 
+		int wallSize = 100;
 		Player player = new Player(50,3*wallSize,6*wallSize, map);
 
 		loop(window, player);
@@ -50,23 +51,30 @@ public class Main {
 		// bindings available for use.
 		GL.createCapabilities();
 
-		// Set the clear color
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
 		// Keep mouse inside window and hidden
 		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+		// Set the clear color
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while ( !glfwWindowShouldClose(window.getWindowHandle()) ) {
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
 
+			player.drawWalls();
+
 			player.keyPressed();
 			player.mouseMoved();
 			MouseListener.endFrame();
+
+			glFlush(); // render now
 
 			glfwSwapBuffers(window.getWindowHandle()); // swap the color buffers
 		}

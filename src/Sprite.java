@@ -12,4 +12,24 @@ public class Sprite {
 		this.posX = posX;
 		this.posY = posY;
 	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public double getPosX() {
+		return posX;
+	}
+
+	public double getPosY() {
+		return posY;
+	}
+
+	public double getLastX() {
+		return lastX;
+	}
+
+	public double getLastY() {
+		return lastY;
+	}
 }

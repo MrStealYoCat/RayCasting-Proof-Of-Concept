@@ -1,10 +1,10 @@
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Player extends Sprite {
 
-	private int rotation = 90;
-	private static final int RAY_COUNT = 180;
-	private Ray[] rays = new Ray[RAY_COUNT];
+	private int rotation = -90;
+	public static final int RAY_COUNT = 180;
 	private final Map map;
 
 	public Player(int size, int posX, int posY, Map map) {
@@ -37,15 +37,48 @@ public class Player extends Sprite {
 			posX += 5 * Math.cos(rotation * 3.14159 / 180);
 			posY += 5 * Math.sin(rotation * 3.14159 / 180);
 		}
-		// Just calculate anyways if a key is pressed.
-		Ray.processRays(rotation, posX, posY, RAY_COUNT, map);
 	}
 
 	/* Check is mouse has been moved on the x plane for player rotation */
 	public void mouseMoved() {
-		if (MouseListener.getXPos() != 0) {
+		if (MouseListener.getDX() != 0) {
 			rotation = (rotation - (int)(MouseListener.getDX()/2)) % 360;
-			Ray.processRays(rotation, posX, posY, RAY_COUNT, map);
+		}
+	}
+
+	/* Function used to draw "3D" walls around the player object. Uses openGL. */
+	public void drawWalls() {
+
+		// Make sure rays are up to date before drawing
+		Ray[] rays = Ray.processRays(rotation, posX, posY, RAY_COUNT, map);
+
+		// Have to use floats as other functions are deprecated
+		//glBegin(GL_QUADS); // Start to get a set of 4 vertices for a rectangle
+		//glColor3f(1.0f, 0.0f, 0.0f); // red
+			/*
+			 In openGL coordinates min,max are (-1.0,1.0) for both axis
+			 regardless of window size. This means that the width can be stretched
+			 if not calculated properly.
+			*/
+
+		// 3D walls
+		for (int i=rays.length-1;i>=0;i--) {
+			float width =(float)(2.0/rays.length);
+			float height = (float)(Map.WALL_HEIGHT /rays[i].getDistance()*4);
+			float x = (float)(-1+(2.0/(rays.length))*(rays.length-1-i));
+			float y = (float)((height/2.0));
+			glBegin(GL_QUADS);
+			if (rays[i].getCollideX()) {
+				glColor3f(0.0f, 0.0f, 1.0f);
+			} else {
+				glColor3f(0.0f, 1.0f, 0.0f);
+			}
+			// Remember to go counter clockwise when rendering so the "face" is towards me
+			glVertex2f(x,y);
+			glVertex2f(x,y-height);
+			glVertex2f(x+width,y-height);
+			glVertex2f(x+width,y);
+			glEnd();
 		}
 	}
 }

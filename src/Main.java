@@ -1,5 +1,6 @@
 import org.lwjgl.opengl.*;
 
+import static controlListeners.MouseListener.*;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -26,7 +27,7 @@ public class Main {
 		Map map = new Map(mapArray);
 
 		int wallSize = 100;
-		Player player = new Player(50,3*wallSize,6*wallSize, map);
+		Player player = new Player(50,3.0*wallSize,6.0*wallSize, 0.0, map);
 
 		loop(window, player);
 
@@ -68,11 +69,12 @@ public class Main {
 			// invoked during this call.
 			glfwPollEvents();
 
-			player.drawWalls();
+			//TODO change to an object that only re-calculates opengl walls when you move
+			Frame.drawWalls(player);
 
 			player.keyPressed();
 			player.mouseMoved();
-			MouseListener.endFrame();
+			endMouseFrame();
 
 			glFlush(); // render now
 

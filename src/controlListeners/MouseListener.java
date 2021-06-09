@@ -1,3 +1,5 @@
+package controlListeners;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
@@ -53,7 +55,7 @@ public class MouseListener {
 		get().scrollY = yOffset;
 	}
 
-	public static void endFrame() {
+	public static void endMouseFrame() {
 		get().scrollX = 0;
 		get().scrollY = 0;
 		get().lastX = get().xPos;

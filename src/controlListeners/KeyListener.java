@@ -1,3 +1,4 @@
+package controlListeners;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyListener {

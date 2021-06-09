@@ -7,12 +7,12 @@ public class Ray {
 	 * everything needed to draw them. Found that this calculation has
 	 * heavy CPU usage.
 	*/
-	public static Ray[] processRays(int rotation, double posX, double posY, int rayCount, Map map) {
+	public static Ray[] processRays(int rotation, double posX, double posY, Map map) {
 		// Generate rays
-		Ray[] rays = new Ray[rayCount];
+		Ray[] rays = new Ray[RAY_COUNT];
 		int startRays = 60 + rotation;
 		int endRays = -60 + rotation;
-		double rayDistanceBetween = 1.0*(startRays-endRays)/(rayCount -1);
+		double rayDistanceBetween = 1.0*(startRays-endRays)/(RAY_COUNT -1);
 		for (int i=0;i<rays.length;i++) {
 			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
 		}
@@ -21,13 +21,13 @@ public class Ray {
 			while (true) {
 				r.setLastX(r.getLastX() + r.getRun());
 
-				if (map.didCollide(r.getLastX(), r.getLastY())) {
+				if (map.didCollide(r.getLastX(), r.getLastY(), 0)) {
 					r.setLastY(r.getLastY() + r.getRise());
 					r.setCollideX(true);
 					break;
 				}
 				r.setLastY(r.getLastY() + r.getRise());
-				if (map.didCollide(r.getLastX(),r.getLastY())) {
+				if (map.didCollide(r.getLastX(),r.getLastY(), 0)) {
 					r.setCollideX(false);
 					break;
 				}
@@ -36,6 +36,7 @@ public class Ray {
 		return rays;
 	}
 
+	public static final int RAY_COUNT = 180;
 	private final double startX;
 	private final double startY;
 	private double lastX;

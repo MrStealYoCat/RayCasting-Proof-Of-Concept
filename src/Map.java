@@ -1,5 +1,3 @@
-import static org.lwjgl.opengl.GL11.*;
-
 public class Map {
 	private static final int WALL_SIZE = 100;
 	public static final int WALL_HEIGHT = 90;

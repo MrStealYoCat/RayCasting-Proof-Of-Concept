@@ -11,7 +11,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
 
-	private String title;
+	private final String title;
 	private int width;
 	private int height;
 
@@ -65,7 +65,7 @@ public class Window {
 			// Center the window
 			glfwSetWindowPos(
 							windowHandle,
-							(vidMode.width() - pWidth.get(0)) / 2,
+							(vidMode.width() - pWidth.get(0)) / 10,
 							(vidMode.height() - pHeight.get(0)) / 2
 			);
 		} // the stack frame is popped automatically

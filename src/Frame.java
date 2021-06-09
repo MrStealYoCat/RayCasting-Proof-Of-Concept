@@ -10,6 +10,7 @@ public class Frame {
 						player.getRotation(),
 						player.getPosX(),
 						player.getPosY(),
+						player.getPosZ(),
 						player.getPlayerMap()
 		);
 

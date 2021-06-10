@@ -12,7 +12,7 @@ public class Player extends Sprite {
 
 	/* Checks normal game keys for movement or rotation */
 	public void keyPressed() {
-		if (map.didCollide(posX, posY, posZ)) {
+		if (map.didCollideWalls(posX, posY, posZ)) {
 			posX = lastX;
 			posY = lastY;
 			return;

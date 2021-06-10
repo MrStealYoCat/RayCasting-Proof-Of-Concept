@@ -21,13 +21,13 @@ public class Ray {
 			while (true) {
 				rays[i].setLastX(rays[i].getLastX() + rays[i].getRun());
 
-				if (map.didCollide(rays[i].getLastX(), rays[i].getLastY(), rays[i].getLastZ())) {
+				if (map.didCollideWalls(rays[i].getLastX(), rays[i].getLastY(), rays[i].getLastZ())) {
 					rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
 					rays[i].setCollideX(true);
 					break;
 				}
 				rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
-				if (map.didCollide(rays[i].getLastX(),rays[i].getLastY(), rays[i].getLastZ())) {
+				if (map.didCollideWalls(rays[i].getLastX(),rays[i].getLastY(), rays[i].getLastZ())) {
 					rays[i].setCollideX(false);
 					break;
 				}

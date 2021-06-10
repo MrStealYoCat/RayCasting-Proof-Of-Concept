@@ -20,25 +20,25 @@ public class Player extends Sprite {
 		lastX = posX;
 		lastY = posY;
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_LEFT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_A)) {
-			posX += 5 * Math.cos((rotation + 90) * 3.14159 / 180);
-			posY += 5 * Math.sin((rotation + 90) * 3.14159 / 180);
+			posX += Ray.calculateRunD(5.0,rotation + 90.0);
+			posY += Ray.calculateRiseD(5.0,rotation + 90.0);
 			Frame.updateAndDrawWalls(this);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_D)) {
-			posX += 5 * Math.cos((rotation - 90) * 3.14159 / 180);
-			posY += 5 * Math.sin((rotation - 90) * 3.14159 / 180);
+			posX += Ray.calculateRunD(5.0,rotation - 90.0);
+			posY += Ray.calculateRiseD(5.0,rotation - 90.0);
 			Frame.updateAndDrawWalls(this);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_DOWN) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_S)) {
-			posX += 5 * Math.cos((rotation + 180) * 3.14159 / 180);
-			posY += 5 * Math.sin((rotation + 180) * 3.14159 / 180);
+			posX += Ray.calculateRunD(5.0,rotation + 180.0);
+			posY += Ray.calculateRiseD(5.0,rotation + 180.0);
 			Frame.updateAndDrawWalls(this);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_UP) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_W)) {
-			posX += 5 * Math.cos(rotation * 3.14159 / 180);
-			posY += 5 * Math.sin(rotation * 3.14159 / 180);
+			posX += Ray.calculateRunD(5.0,1.0*rotation);
+			posY += Ray.calculateRiseD(5.0,1.0*rotation);
 			Frame.updateAndDrawWalls(this);
-			System.out.println(posX + " " + posY);
+			//System.out.println(posX + " " + posY);
 		}
 	}
 

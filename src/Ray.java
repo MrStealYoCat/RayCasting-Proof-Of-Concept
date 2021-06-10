@@ -40,6 +40,19 @@ public class Ray {
 		return rays;
 	}
 
+	public static Double calculateRiseR(Double riseDistance, Double rotationInRadians) {
+		return riseDistance * Math.sin(rotationInRadians);
+	}
+	public static Double calculateRiseD(Double riseDistance, Double rotationInDegrees) {
+		return calculateRiseR(riseDistance, rotationInDegrees * 3.14159/180);
+	}
+	public static Double calculateRunR(Double runDistance, Double rotationInRadians) {
+		return runDistance * Math.cos(rotationInRadians);
+	}
+	public static Double calculateRunD(Double runDistance, Double rotationInDegrees) {
+		return calculateRunR(runDistance, rotationInDegrees * 3.14159/180);
+	}
+
 	public static final int RAY_COUNT = 180;
 	private final double startX;
 	private final double startY;
@@ -63,8 +76,8 @@ public class Ray {
 		this.lastY = startY;
 		this.lastZ = startZ;
 
-		rise = Math.sin(rotation *3.14159/180.0);
-		run = Math.cos(rotation *3.14159/180.0);
+		rise = calculateRiseD(1.0,rotation);
+		run = calculateRunD(1.0,rotation);
 	}
 
 	public double getLastX() {

@@ -30,11 +30,7 @@ public class Frame {
 		// 3D walls
 		for (int i=rays.length-1;i>=0;i--) {
 			glBegin(GL_QUADS);
-			if (rays[i].getCollideX()) {
-				glColor3f(0.0f, 0.0f, 1.0f);
-			} else {
-				glColor3f(0.0f, 1.0f, 0.0f);
-			}
+			glColor3f(rays[i].getColor().getRed(),rays[i].getColor().getGreen(),rays[i].getColor().getBlue());
 			// Remember to go counter clockwise when rendering so the "face" is towards me
 			glVertex2f(
 							rays[i].getDrawX(),

@@ -57,8 +57,8 @@ public class Obstacle {
 		if (rise == 0 && run < 0) {
 			rotation = 180;
 		}
-		double distance = 1;
-		for (int j=0; j<(int)wholeDistance; j++) {
+		double distance = 3;
+		for (int j=0; j<(int)wholeDistance/distance; j++) {
 			collisionBoxes.add(new CollisionBox(
 							x1 + Ray.calculateRunD(distance,rotation)*j,
 							y1 + Ray.calculateRiseD(distance,rotation)*j,

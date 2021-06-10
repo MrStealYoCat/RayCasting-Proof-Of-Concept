@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Ray {
 
 	/* Generates the ray array used for just about everything else
@@ -24,12 +26,12 @@ public class Ray {
 				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
 					//rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
 					System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-					rays[i].setCollideX(true);
+					rays[i].setColor(Color.BLUE);
 					break;
 				}
 //				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
 //					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setCollideX(true);
+//					rays[i].setColor(Color.RED);
 //					break;
 //				}
 
@@ -38,12 +40,12 @@ public class Ray {
 				rays[i].setEndY((rays[i].getEndY() + rays[i].getRise()));
 				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
 					System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-					rays[i].setCollideX(false);
+					rays[i].setColor(Color.GREEN);
 					break;
 				}
 //				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
 //					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setCollideX(false);
+//					rays[i].setColor(Color.RED);
 //					break;
 //				}
 			}
@@ -77,7 +79,7 @@ public class Ray {
 	private double endZ;
 	private final double rise;
 	private final double run;
-	private boolean collideX;
+	private Color color;
 	private float drawWidth;
 	private float drawHeight;
 	private float drawX;
@@ -113,8 +115,8 @@ public class Ray {
 	public double getDistance() {
 		return Math.sqrt( (startX- endX)*(startX- endX) + (startY- endY)*(startY- endY) );
 	}
-	public boolean getCollideX() {
-		return collideX;
+	public Color getColor() {
+		return color;
 	}
 	public float getDrawWidth() {
 		return drawWidth;
@@ -138,8 +140,8 @@ public class Ray {
 	public void setEndZ(double endZ) {
 		this.endZ = endZ;
 	}
-	public void setCollideX(boolean collideX) {
-		this.collideX = collideX;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	public void setDrawWidth(float drawWidth) {
 		this.drawWidth = drawWidth;

@@ -26,11 +26,15 @@ public class Map {
 		List<CollisionBox> collisionBoxes = obstacle.getCollisionBoxes();
 		int collisionSize = obstacle.getCollisionSize();
 		for (int i=0; i<collisionBoxes.size(); i++) {
-			if (// Left and top of 2D box
-							(int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
-							//(int)colliderX == (int)collisionBoxes.get(i).getPosX() + collisionSize ||
-							(int)colliderY == (int)collisionBoxes.get(i).getPosY() //||
-							//(int)colliderY == (int)collisionBoxes.get(i).getPosY() + collisionSize
+			if (		// Left and top of 2D box
+							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
+							(int)colliderY == (int)collisionBoxes.get(i).getPosY() ) ||
+							// Right of 2D box
+							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() + collisionSize &&
+							(int)colliderY == (int)collisionBoxes.get(i).getPosY() ) ||
+							// Bottom of 2D box
+							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
+							(int)colliderY == (int)collisionBoxes.get(i).getPosY() + collisionSize )
 			) {
 				return true;
 			}

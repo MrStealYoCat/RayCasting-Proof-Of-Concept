@@ -70,7 +70,6 @@ public class Main {
 
 		// Set the clear color
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while ( !glfwWindowShouldClose(window.getWindowHandle()) ) {

@@ -17,21 +17,25 @@ public class Ray {
 			rays[i] = new Ray(posX,posY,posZ,startRays-i*rayDistanceBetween);
 		}
 		// Calculate collision
-		for (Ray r : rays) {
+		for (int i=0; i<rays.length; i++) {
 			while (true) {
-				r.setLastX(r.getLastX() + r.getRun());
+				rays[i].setLastX(rays[i].getLastX() + rays[i].getRun());
 
-				if (map.didCollide(r.getLastX(), r.getLastY(), r.getLastZ())) {
-					r.setLastY(r.getLastY() + r.getRise());
-					r.setCollideX(true);
+				if (map.didCollide(rays[i].getLastX(), rays[i].getLastY(), rays[i].getLastZ())) {
+					rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
+					rays[i].setCollideX(true);
 					break;
 				}
-				r.setLastY(r.getLastY() + r.getRise());
-				if (map.didCollide(r.getLastX(),r.getLastY(), r.getLastZ())) {
-					r.setCollideX(false);
+				rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
+				if (map.didCollide(rays[i].getLastX(),rays[i].getLastY(), rays[i].getLastZ())) {
+					rays[i].setCollideX(false);
 					break;
 				}
 			}
+			rays[i].setDrawWidth((float)(2.0/rays.length));
+			rays[i].setDrawHeight((float)(Map.WALL_HEIGHT /rays[i].getDistance()*4));
+			rays[i].setDrawX((float)(-1+(2.0/(rays.length))*i));
+			rays[i].setDrawY((float)((rays[i].getDrawHeight()/2.0)));
 		}
 		return rays;
 	}
@@ -46,6 +50,10 @@ public class Ray {
 	private final double rise;
 	private final double run;
 	private boolean collideX;
+	private float drawWidth;
+	private float drawHeight;
+	private float drawX;
+	private float drawY;
 
 	public Ray(double startX, double startY, double startZ, double rotation) {
 		this.startX = startX;
@@ -81,6 +89,22 @@ public class Ray {
 		return collideX;
 	}
 
+	public float getDrawWidth() {
+		return drawWidth;
+	}
+
+	public float getDrawX() {
+		return drawX;
+	}
+
+	public float getDrawY() {
+		return drawY;
+	}
+
+	public float getDrawHeight() {
+		return drawHeight;
+	}
+
 	public void setLastX(double lastX) {
 		this.lastX = lastX;
 	}
@@ -92,5 +116,21 @@ public class Ray {
 	}
 	public void setCollideX(boolean collideX) {
 		this.collideX = collideX;
+	}
+
+	public void setDrawWidth(float drawWidth) {
+		this.drawWidth = drawWidth;
+	}
+
+	public void setDrawHeight(float drawHeight) {
+		this.drawHeight = drawHeight;
+	}
+
+	public void setDrawX(float drawX) {
+		this.drawX = drawX;
+	}
+
+	public void setDrawY(float drawY) {
+		this.drawY = drawY;
 	}
 }

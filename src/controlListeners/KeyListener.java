@@ -5,10 +5,6 @@ public class KeyListener {
 	private static KeyListener instance;
 	private final boolean[] keyPressed = new boolean[GLFW_KEY_LAST+2];
 
-	private KeyListener() {
-
-	}
-
 	public static KeyListener get() {
 		if (instance == null) {
 			instance = new KeyListener();

@@ -52,4 +52,7 @@ public class CollisionBox {
 	public void setHeight(double height) {
 		this.height = height;
 	}
+	public void show() {
+		System.out.printf("%f, %f, %f, %f\n",posX, posY, width, length);
+	}
 }

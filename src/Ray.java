@@ -19,18 +19,33 @@ public class Ray {
 		// Calculate collision
 		for (int i=0; i<rays.length; i++) {
 			while (true) {
-				rays[i].setLastX(rays[i].getLastX() + rays[i].getRun());
-
-				if (map.didCollideWalls(rays[i].getLastX(), rays[i].getLastY(), rays[i].getLastZ())) {
-					rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
+				// X Collision
+				rays[i].setEndX((rays[i].getEndX() + rays[i].getRun()));
+				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
+					//rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
+					System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setCollideX(true);
 					break;
 				}
-				rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
-				if (map.didCollideWalls(rays[i].getLastX(),rays[i].getLastY(), rays[i].getLastZ())) {
+//				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+//					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setCollideX(true);
+//					break;
+//				}
+
+
+				// Y Collision
+				rays[i].setEndY((rays[i].getEndY() + rays[i].getRise()));
+				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
+					System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setCollideX(false);
 					break;
 				}
+//				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setCollideX(false);
+//					break;
+//				}
 			}
 			rays[i].setDrawWidth((float)(2.0/rays.length));
 			rays[i].setDrawHeight((float)(Map.WALL_HEIGHT /rays[i].getDistance()*4));
@@ -57,9 +72,9 @@ public class Ray {
 	private final double startX;
 	private final double startY;
 	private final double startZ;
-	private double lastX;
-	private double lastY;
-	private double lastZ;
+	private double endX;
+	private double endY;
+	private double endZ;
 	private final double rise;
 	private final double run;
 	private boolean collideX;
@@ -72,22 +87,22 @@ public class Ray {
 		this.startX = startX;
 		this.startY = startY;
 		this.startZ = startZ;
-		this.lastX = startX;
-		this.lastY = startY;
-		this.lastZ = startZ;
+		this.endX = startX;
+		this.endY = startY;
+		this.endZ = startZ;
 
 		rise = calculateRiseD(1.0,rotation);
 		run = calculateRunD(1.0,rotation);
 	}
 
-	public double getLastX() {
-		return lastX;
+	public double getEndX() {
+		return endX;
 	}
-	public double getLastY() {
-		return lastY;
+	public double getEndY() {
+		return endY;
 	}
-	public double getLastZ() {
-		return lastZ;
+	public double getEndZ() {
+		return endZ;
 	}
 	public double getRise() {
 		return rise;
@@ -96,7 +111,7 @@ public class Ray {
 		return run;
 	}
 	public double getDistance() {
-		return Math.sqrt( (startX-lastX)*(startX-lastX) + (startY-lastY)*(startY-lastY) );
+		return Math.sqrt( (startX- endX)*(startX- endX) + (startY- endY)*(startY- endY) );
 	}
 	public boolean getCollideX() {
 		return collideX;
@@ -114,14 +129,14 @@ public class Ray {
 		return drawHeight;
 	}
 
-	public void setLastX(double lastX) {
-		this.lastX = lastX;
+	public void setEndX(double endX) {
+		this.endX = endX;
 	}
-	public void setLastY(double lastY) {
-		this.lastY = lastY;
+	public void setEndY(double endY) {
+		this.endY = endY;
 	}
-	public void setLastZ(double lastZ) {
-		this.lastZ = lastZ;
+	public void setEndZ(double endZ) {
+		this.endZ = endZ;
 	}
 	public void setCollideX(boolean collideX) {
 		this.collideX = collideX;

@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
 	private static final int WALL_SIZE = 100;
 	public static final int WALL_HEIGHT = 90;
 	private final int[][] mapArray;
-	private List<Obstacle> obstacles;
+	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 	public Map(int[][] mapArray) {
 		this.mapArray = mapArray;
@@ -12,10 +13,27 @@ public class Map {
 
 	//TODO calculate collision in terms of hitting an
 	// obstacle rather than just parallel cubes.
+	public boolean didCollideAnyObstacle(double colliderX, double colliderY) {
+		for (int i=0; i<obstacles.size();i++) {
+			if ( didCollideObstacle(obstacles.get(i),colliderX,colliderY) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-	public boolean didCollideObstacle(CollisionBox collisionBox) {
-		for (int i=0; i<obstacles.size(); i++) {
-
+	public boolean didCollideObstacle(Obstacle obstacle, double colliderX, double colliderY) {
+		List<CollisionBox> collisionBoxes = obstacle.getCollisionBoxes();
+		int collisionSize = obstacle.getCollisionSize();
+		for (int i=0; i<collisionBoxes.size(); i++) {
+			if (// Left and top of 2D box
+							(int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
+							//(int)colliderX == (int)collisionBoxes.get(i).getPosX() + collisionSize ||
+							(int)colliderY == (int)collisionBoxes.get(i).getPosY() //||
+							//(int)colliderY == (int)collisionBoxes.get(i).getPosY() + collisionSize
+			) {
+				return true;
+			}
 		}
 
 		return false;

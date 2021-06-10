@@ -88,19 +88,15 @@ public class Ray {
 	public boolean getCollideX() {
 		return collideX;
 	}
-
 	public float getDrawWidth() {
 		return drawWidth;
 	}
-
 	public float getDrawX() {
 		return drawX;
 	}
-
 	public float getDrawY() {
 		return drawY;
 	}
-
 	public float getDrawHeight() {
 		return drawHeight;
 	}
@@ -117,19 +113,15 @@ public class Ray {
 	public void setCollideX(boolean collideX) {
 		this.collideX = collideX;
 	}
-
 	public void setDrawWidth(float drawWidth) {
 		this.drawWidth = drawWidth;
 	}
-
 	public void setDrawHeight(float drawHeight) {
 		this.drawHeight = drawHeight;
 	}
-
 	public void setDrawX(float drawX) {
 		this.drawX = drawX;
 	}
-
 	public void setDrawY(float drawY) {
 		this.drawY = drawY;
 	}

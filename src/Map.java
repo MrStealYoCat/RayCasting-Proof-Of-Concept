@@ -1,7 +1,10 @@
+import java.util.List;
+
 public class Map {
 	private static final int WALL_SIZE = 100;
 	public static final int WALL_HEIGHT = 90;
 	private final int[][] mapArray;
+	private List<Obstacle> obstacles;
 
 	public Map(int[][] mapArray) {
 		this.mapArray = mapArray;
@@ -11,7 +14,9 @@ public class Map {
 	// obstacle rather than just parallel cubes.
 
 	public boolean didCollideObstacle(CollisionBox collisionBox) {
+		for (int i=0; i<obstacles.size(); i++) {
 
+		}
 
 		return false;
 	}
@@ -27,5 +32,9 @@ public class Map {
 	 || mapArray[(int)(colliderY/ WALL_SIZE)][(int)((colliderX+ WALL_SIZE)/ WALL_SIZE)-1] != 0
 			// Bottom of 2D box
 	 || mapArray[(int)((colliderY+ WALL_SIZE)/ WALL_SIZE)-1][(int)(colliderX/ WALL_SIZE)] != 0;
+	}
+
+	public void addObstacle(Obstacle obstacle) {
+		obstacles.add(obstacle);
 	}
 }

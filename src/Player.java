@@ -38,6 +38,7 @@ public class Player extends Sprite {
 			posX += 5 * Math.cos(rotation * 3.14159 / 180);
 			posY += 5 * Math.sin(rotation * 3.14159 / 180);
 			Frame.updateAndDrawWalls(this);
+			System.out.println(posX + " " + posY);
 		}
 	}
 
@@ -45,7 +46,7 @@ public class Player extends Sprite {
 	public void mouseMoved() {
 		if (controlListeners.MouseListener.getDX() != 0) {
 			rotation = (rotation + (int)(controlListeners.MouseListener.getDX()/2)) % 360;
-			System.out.println(rotation);
+			//System.out.println(rotation);
 			Frame.updateAndDrawWalls(this);
 		}
 	}

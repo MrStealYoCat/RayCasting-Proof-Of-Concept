@@ -18,12 +18,7 @@ public class Map {
 	// obstacle rather than just parallel cubes.
 	public boolean didCollideAnyObstacle(double colliderX, double colliderY) {
 		for (int i=0; i<obstacles.size();i++) {
-			if ( didCollideObstacle(obstacles.get(i),colliderX,colliderY)
-				|| (colliderX > width)
-				|| (colliderX < 0)
-				|| (colliderY > length)
-				|| (colliderY < 0)
-			) {
+			if ( didCollideObstacle(obstacles.get(i),colliderX,colliderY) ) {
 				return true;
 			}
 		}
@@ -34,7 +29,11 @@ public class Map {
 		return (
 						obstacle.getVertices()[0] <= colliderX && colliderX <= obstacle.getVertices()[4]
 						&& obstacle.getVertices()[1] <= colliderY && colliderY <= obstacle.getVertices()[5]
-						);
+						)
+						|| (colliderX > width)
+						|| (colliderX < 0)
+						|| (colliderY > length)
+						|| (colliderY < 0);
 	}
 
 	public void addObstacle(Obstacle obstacle) {

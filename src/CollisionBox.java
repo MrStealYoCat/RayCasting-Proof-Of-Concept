@@ -29,7 +29,7 @@ public class CollisionBox {
 		vertices[5] = vertices[3] + Ray.calculateRiseD(width,rotation-90);
 		vertices[6] = vertices[4] + Ray.calculateRunD(length,rotation-180);
 		vertices[7] = vertices[5] + Ray.calculateRiseD(length,rotation-180);
-		showVertices();
+		//showVertices();
 	}
 
 	public double getPosX() {

@@ -26,7 +26,7 @@ public class Sprite {
 						size,
 						size,
 						size,
-						0.0
+						90.0
 		);
 	}
 

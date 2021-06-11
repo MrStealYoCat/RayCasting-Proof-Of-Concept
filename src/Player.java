@@ -48,8 +48,13 @@ public class Player extends Sprite {
 	}
 
 	//TODO fix player collision with new coordinate system
+	// collision only breaks on the "top" side of an object
 	private boolean didPlayerCollide() {
-		System.out.printf("%f, %f, %f, %f\n",collisionBox.getVertices()[0],collisionBox.getVertices()[2],collisionBox.getVertices()[4],collisionBox.getVertices()[6]);
+//		System.out.printf("%f, %f - ( %f , %f ) - %f, %f\n",
+//						collisionBox.getVertices()[0],collisionBox.getVertices()[1],
+//						posX,posY,
+//						collisionBox.getVertices()[4],collisionBox.getVertices()[5]);
+		collisionBoxToPos(posX,posY);
 		if (
 				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||

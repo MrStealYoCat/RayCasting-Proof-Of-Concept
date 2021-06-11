@@ -117,12 +117,6 @@ public class Ray {
 		this.rotation = rotation;
 	}
 
-	public void reset() {
-		endX = startX;
-		endY = startY;
-		endZ = startZ;
-	}
-
 	public double getEndX() {
 		return endX;
 	}

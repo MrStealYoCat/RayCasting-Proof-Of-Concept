@@ -43,6 +43,7 @@ public class Player extends Sprite {
 		}
 	}
 
+	//TODO fix player collision with new coordinate system
 	private boolean didPlayerCollide() {
 		if (
 				//map.didCollideWalls(posX, posY, posZ) ||

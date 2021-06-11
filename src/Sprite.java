@@ -8,6 +8,7 @@ public class Sprite {
 	protected double lastY;
 	protected double lastZ;
 	protected CollisionBox collisionBox;
+	protected int rotation = -90;
 
 	//TODO add other sprite objects to the game besides Player
 	public Sprite(int size, double posX, double posY, double posZ) {
@@ -21,7 +22,8 @@ public class Sprite {
 						posZ,
 						size,
 						size,
-						size
+						size,
+						1.0*rotation
 		);
 	}
 

@@ -2,7 +2,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends Sprite {
 
-	private int rotation = -90;
 	private final Map map;
 
 	public Player(int size, double posX, double posY, double posZ, Map map) {

@@ -46,7 +46,14 @@ public class Main {
 						200.0,300.0,
 						300.0,200.0
 		};
-		map.addObstacle(new Obstacle(10,vertices));
+
+		Double[] vertices2 = {
+						500.0,500.0,
+						500.0,600.0,
+						600.0,600.0,
+						600.0,500.0
+		};
+		map.addObstacle(new Obstacle(5,vertices2));
 
 		int wallSize = 100;
 		Player player = new Player(50,5.0*wallSize,6.0*wallSize, 0.0, map);

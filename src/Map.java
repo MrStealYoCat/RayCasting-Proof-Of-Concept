@@ -26,15 +26,17 @@ public class Map {
 		List<CollisionBox> collisionBoxes = obstacle.getCollisionBoxes();
 		int collisionSize = obstacle.getCollisionSize();
 		for (int i=0; i<collisionBoxes.size(); i++) {
-			if (		// Left and top of 2D box
-							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
-							(int)colliderY == (int)collisionBoxes.get(i).getPosY() ) ||
-							// Right of 2D box
-							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() + collisionSize &&
-							(int)colliderY == (int)collisionBoxes.get(i).getPosY() ) ||
-							// Bottom of 2D box
-							( (int)colliderX == (int)collisionBoxes.get(i).getPosX() &&
-							(int)colliderY == (int)collisionBoxes.get(i).getPosY() + collisionSize )
+			Double x1 = collisionBoxes.get(i).getVertices()[0];
+			Double y1 = collisionBoxes.get(i).getVertices()[1];
+			Double x2 = collisionBoxes.get(i).getVertices()[4];
+			Double y2 = collisionBoxes.get(i).getVertices()[5];
+			Double rotation = collisionBoxes.get(i).getRotation();
+			//System.out.printf("Rotation: %f\n", rotation);
+			if (
+					Obstacle.calculateRotation(x1, colliderX, y1, colliderY) <= rotation
+			 && Obstacle.calculateRotation(x1, colliderX, y1, colliderY) >= rotation - 90
+			 && Obstacle.calculateRotation(x2, colliderX, y2, colliderY) <= rotation - 180
+			 && Obstacle.calculateRotation(x2, colliderX, y2, colliderY) >= rotation - 270
 			) {
 				return true;
 			}
@@ -58,5 +60,8 @@ public class Map {
 
 	public void addObstacle(Obstacle obstacle) {
 		obstacles.add(obstacle);
+	}
+	public Obstacle getObstacle(int index) {
+		return obstacles.get(index);
 	}
 }

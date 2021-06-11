@@ -34,6 +34,11 @@ public class Ray {
 //					rays[i].setColor(Color.RED);
 //					break;
 //				}
+//				if ( map.didCollideObstacle(map.getObstacle(0), rays[i].getEndX(), rays[i].getEndY()) ) {
+//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setColor(Color.RED);
+//					break;
+//				}
 
 
 				// Y Collision
@@ -44,6 +49,11 @@ public class Ray {
 					break;
 				}
 //				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setColor(Color.RED);
+//					break;
+//				}
+//				if ( map.didCollideObstacle(map.getObstacle(0), rays[i].getEndX(), rays[i].getEndY()) ) {
 //					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 //					rays[i].setColor(Color.RED);
 //					break;

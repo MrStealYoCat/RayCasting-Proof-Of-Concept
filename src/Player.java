@@ -44,8 +44,12 @@ public class Player extends Sprite {
 	}
 
 	private boolean didPlayerCollide() {
-		if (map.didCollideWalls(posX, posY, posZ)
-						|| map.didCollideAnyObstacle(posX,posY)
+		if (
+				//map.didCollideWalls(posX, posY, posZ) ||
+				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
+				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
+				map.didCollideAnyObstacle(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
+				map.didCollideAnyObstacle(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
 		) {
 			posX = lastX;
 			posY = lastY;

@@ -26,7 +26,7 @@ public class Sprite {
 						size,
 						size,
 						size,
-						1.0*rotation
+						0.0
 		);
 	}
 

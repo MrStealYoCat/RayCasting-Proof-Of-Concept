@@ -24,47 +24,35 @@ public class Ray {
 				//System.out.printf("X: %f, Y: %f\n", rays[i].getEndX(), rays[i].getEndY());
 				// X Collision
 				rays[i].setEndX((rays[i].getEndX() + rays[i].getRun()));
-				if (
-								(rays[i].getEndX() > Map.MAP_WIDTH)
-						 || (rays[i].getEndX() < 0)
-						 || (rays[i].getEndY() > Map.MAP_HEIGHT)
-						 || (rays[i].getEndY() < 0)
-						 ||	map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY())
-				) {
+				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
 					//rays[i].setEndY(rays[i].getEndY() + rays[i].getRise());
-					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-					rays[i].setColor(Color.RED);
-					break;
-				}
-				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
-					//rays[i].setEndY(rays[i].getEndY() + rays[i].getRise());
-					//System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+					//System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.BLUE);
 					break;
 				}
+//				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
+//					//rays[i].setEndY(rays[i].getEndY() + rays[i].getRise());
+//					//System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setColor(Color.BLUE);
+//					break;
+//				}
 
 
 				// Y Collision
 				rays[i].setEndY((rays[i].getEndY() + rays[i].getRise()));
-				if (
-								(rays[i].getEndX() > Map.MAP_WIDTH)
-						 || (rays[i].getEndX() < 0)
-						 || (rays[i].getEndY() > Map.MAP_HEIGHT)
-						 || (rays[i].getEndY() < 0)
-						 ||	map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY())
-				) {
-					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-					rays[i].setColor(Color.RED);
-					break;
-				}
-				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
-					//System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+					//System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.GREEN);
 					break;
 				}
+//				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
+//					//System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+//					rays[i].setColor(Color.GREEN);
+//					break;
+//				}
 			}
-			System.out.println("----------- Collided with something ----------");
-			System.out.printf("          ( %f , %f )\n\n\n", rays[i].getEndX(), rays[i].getEndY());
+//			System.out.println("----------- Collided with something ----------");
+//			System.out.printf("          ( %f , %f )\n\n\n", rays[i].getEndX(), rays[i].getEndY());
 			rays[i].setDrawWidth((float)(2.0/rays.length));
 			rays[i].setDrawHeight((float)(Map.WALL_HEIGHT /rays[i].getDistance()*4));
 			rays[i].setDrawX((float)(-1+(2.0/(rays.length))*i));
@@ -84,6 +72,19 @@ public class Ray {
 	}
 	public static Double calculateRunD(Double runDistance, Double rotationInDegrees) {
 		return calculateRunR(runDistance, rotationInDegrees * 3.14159/180);
+	}
+	public static Double calculateRotation(Double x1, Double x2, Double y1, Double y2) {
+		double rise = y2-y1;
+		double run = x2-x1;
+		double rotation = 0;
+		if (run != 0) {
+			rotation = (Math.atan(rise/run)*180/3.14159);
+		}
+		// Account for run being negative else arcTangent will always rotate run positive
+		if (rise == 0 && run < 0) {
+			rotation = 180;
+		}
+		return rotation;
 	}
 
 	public static final int RAY_COUNT = 180;

@@ -58,7 +58,7 @@ public class Obstacle {
 		double wholeDistance = Math.sqrt( Math.pow(run, 2) + Math.pow(rise, 2) );
 		// Set rotation to be +-90 and if run == 0 then don't change it.
 		// Doing these extra steps so I can specify the distance between collision.
-		double rotation = calculateRotation(x1, x2, y1, y2);
+		double rotation = Ray.calculateRotation(x1, x2, y1, y2);
 		System.out.println(name);
 		collisionBoxes.add(new CollisionBox(
 			x1,
@@ -70,61 +70,6 @@ public class Obstacle {
 			rotation
 		));
 	}
-
-	public static Double calculateRotation(Double x1, Double x2, Double y1, Double y2) {
-		double rise = y2-y1;
-		double run = x2-x1;
-		double rotation = 0;
-		if (run != 0) {
-			rotation = (Math.atan(rise/run)*180/3.14159);
-		}
-		// Account for run being negative else arcTangent will always rotate run positive
-		if (rise == 0 && run < 0) {
-			rotation = 180;
-		}
-		return rotation;
-	}
-
-//	private void addCollisionLine(int collisionSize, Double x1, Double x2, Double y1, Double y2) {
-//		//make 1x1 collision squares from one vertex to another
-//		double rise = y2-y1;
-//		double run = x2-x1;
-//		double wholeDistance = Math.sqrt( Math.pow(run, 2) + Math.pow(rise, 2) );
-//		// Set rotation to be +-90 and if run == 0 then don't change it.
-//		// Doing these extra steps so I can specify the distance between collision.
-//		double rotation = 1.0 * (rise/Math.abs(rise))*90;
-//		if (run != 0) {
-//			rotation = (Math.atan(rise/run)*180/3.14159);
-//		}
-//		// Account for run being negative else arcTangent will always rotate run positive
-//		if (rise == 0 && run < 0) {
-//			rotation = 180;
-//		}
-//		double distance = 3;
-//		for (int j=0; j<(int)wholeDistance/distance; j++) {
-//			collisionBoxes.add(new CollisionBox(
-//							x1 + Ray.calculateRunD(distance,rotation)*j,
-//							y1 + Ray.calculateRiseD(distance,rotation)*j,
-//							0,
-//							collisionSize, // Length
-//							collisionSize, // Width
-//							Map.WALL_HEIGHT //Obstacle height
-//							)
-//			);
-//		}
-////		// Add a collision box in the corner if the for loop didn't make it.
-////		if (wholeDistance%1 != 0) {
-////			collisionBoxes.add(new CollisionBox(
-////							x2,
-////							y2,
-////							0,
-////							collisionSize,
-////							collisionSize,
-////							Map.WALL_HEIGHT //Obstacle height
-////							)
-////			);
-////		}
-//	}
 
 	public Double[] getVertices() {
 		return vertices;

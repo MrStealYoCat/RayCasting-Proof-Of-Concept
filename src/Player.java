@@ -13,62 +13,49 @@ public class Player extends Sprite {
 	public void keyPressed() {
 
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_LEFT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_A)) {
-			if (!didPlayerCollide()) {
-				posX += Ray.calculateRunD(5.0,rotation + 90.0);
-				posY += Ray.calculateRiseD(5.0,rotation + 90.0);
-				collisionBoxToPos(posX,posY);
-				Frame.updateAndDrawWalls(this);
-			}
+			move(rotation+90);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_D)) {
-			if (!didPlayerCollide()) {
-				posX += Ray.calculateRunD(5.0, rotation - 90.0);
-				posY += Ray.calculateRiseD(5.0, rotation - 90.0);
-				collisionBoxToPos(posX,posY);
-				Frame.updateAndDrawWalls(this);
-			}
+			move(rotation-90);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_DOWN) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_S)) {
-			if (!didPlayerCollide()) {
-				posX += Ray.calculateRunD(5.0, rotation + 180.0);
-				posY += Ray.calculateRiseD(5.0, rotation + 180.0);
-				collisionBoxToPos(posX,posY);
-				Frame.updateAndDrawWalls(this);
-			}
+			move(rotation+180);
 		}
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_UP) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_W)) {
-			if (!didPlayerCollide()) {
-				posX += Ray.calculateRunD(5.0, 1.0 * rotation);
-				posY += Ray.calculateRiseD(5.0, 1.0 * rotation);
-				collisionBoxToPos(posX,posY);
-				Frame.updateAndDrawWalls(this);
-				//System.out.println(posX + " " + posY);
-			}
+			move(rotation);
 		}
 	}
 
-	//TODO fix player collision with new coordinate system
-	// collision only breaks on the "top" side of an object
+	private void move(double rotation) {
+		//Check X collision
+		collisionBoxToPos(posX + Ray.calculateRunD(5.0, rotation), posY);
+		if (!didPlayerCollide()) {
+			posX += Ray.calculateRunD(5.0, rotation);
+			lastX = posX;
+		}
+		collisionBoxToPos(posX,posY + Ray.calculateRiseD(5.0, rotation));
+		if (!didPlayerCollide()) {
+			posY += Ray.calculateRiseD(5.0, rotation);
+			lastY = posY;
+		}
+		collisionBoxToPos(posX,posY);
+		Frame.updateAndDrawWalls(this);
+	}
+
 	private boolean didPlayerCollide() {
 //		System.out.printf("%f, %f - ( %f , %f ) - %f, %f\n",
 //						collisionBox.getVertices()[0],collisionBox.getVertices()[1],
 //						posX,posY,
 //						collisionBox.getVertices()[4],collisionBox.getVertices()[5]);
-		collisionBoxToPos(posX,posY);
 		if (
 				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
 		) {
-			System.out.println("Collided!");
-			posX = lastX;
-			posY = lastY;
-			collisionBoxToPos(posX,posY);
+			//System.out.println("Collided!");
 			return true;
 		}
-		lastX = posX;
-		lastY = posY;
 		return false;
 	}
 

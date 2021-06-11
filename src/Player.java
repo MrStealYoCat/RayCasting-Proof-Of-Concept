@@ -4,8 +4,8 @@ public class Player extends Sprite {
 
 	private final Map map;
 
-	public Player(int size, double posX, double posY, double posZ, Map map) {
-		super(size, posX, posY, posZ);
+	public Player(String name, int size, double posX, double posY, double posZ, Map map) {
+		super(name, size, posX, posY, posZ);
 		this.map = map;
 	}
 

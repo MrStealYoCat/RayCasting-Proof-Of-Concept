@@ -1,5 +1,6 @@
 public class Sprite {
 
+	private String name;
 	protected int size;
 	protected double posX;
 	protected double posY;
@@ -11,11 +12,13 @@ public class Sprite {
 	protected int rotation = -90;
 
 	//TODO add other sprite objects to the game besides Player
-	public Sprite(int size, double posX, double posY, double posZ) {
+	public Sprite(String name, int size, double posX, double posY, double posZ) {
+		this.name = name;
 		this.size = size;
 		this.posX = posX;
 		this.posY = posY;
 		this.posZ = posZ;
+		System.out.println(name);
 		collisionBox = new CollisionBox(
 						posX-size/2,
 						posY-size/2,

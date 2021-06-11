@@ -21,6 +21,7 @@ public class Ray {
 		// Calculate collision
 		for (int i=0; i<rays.length; i++) {
 			while (true) {
+				//System.out.printf("X: %f, Y: %f\n", rays[i].getEndX(), rays[i].getEndY());
 				// X Collision
 				rays[i].setEndX((rays[i].getEndX() + rays[i].getRun()));
 				if (
@@ -30,21 +31,17 @@ public class Ray {
 						 || (rays[i].getEndY() < 0)
 						 ||	map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY())
 				) {
+					//rays[i].setEndY(rays[i].getEndY() + rays[i].getRise());
 					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.RED);
 					break;
 				}
 				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
-					//rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
-					System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+					//rays[i].setEndY(rays[i].getEndY() + rays[i].getRise());
+					//System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.BLUE);
 					break;
 				}
-//				if ( map.didCollideObstacle(map.getObstacle(0), rays[i].getEndX(), rays[i].getEndY()) ) {
-//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setColor(Color.RED);
-//					break;
-//				}
 
 
 				// Y Collision
@@ -61,20 +58,10 @@ public class Ray {
 					break;
 				}
 				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
-					System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+					//System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.GREEN);
 					break;
 				}
-//				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
-//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setColor(Color.RED);
-//					break;
-//				}
-//				if ( map.didCollideObstacle(map.getObstacle(0), rays[i].getEndX(), rays[i].getEndY()) ) {
-//					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setColor(Color.RED);
-//					break;
-//				}
 			}
 			rays[i].setDrawWidth((float)(2.0/rays.length));
 			rays[i].setDrawHeight((float)(Map.WALL_HEIGHT /rays[i].getDistance()*4));
@@ -98,6 +85,7 @@ public class Ray {
 	}
 
 	public static final int RAY_COUNT = 180;
+	public static final Double MOVE_DISTANCE = 50.0;
 	private final double startX;
 	private final double startY;
 	private final double startZ;
@@ -120,8 +108,8 @@ public class Ray {
 		this.endY = startY;
 		this.endZ = startZ;
 
-		rise = calculateRiseD(1.0,rotation);
-		run = calculateRunD(1.0,rotation);
+		rise = calculateRiseD(MOVE_DISTANCE,rotation);
+		run = calculateRunD(MOVE_DISTANCE,rotation);
 	}
 
 	public double getEndX() {

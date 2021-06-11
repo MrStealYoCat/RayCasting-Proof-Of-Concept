@@ -1,8 +1,5 @@
 import org.lwjgl.opengl.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static controlListeners.MouseListener.*;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -48,15 +45,15 @@ public class Main {
 		};
 
 		Double[] vertices2 = {
-						500.0,500.0,
-						500.0,600.0,
-						600.0,600.0,
-						600.0,500.0
+						100.0,100.0,
+						100.0,200.0,
+						1900.0,200.0,
+						1900.0,100.0
 		};
-		map.addObstacle(new Obstacle(1,vertices));
+		map.addObstacle(new Obstacle(100,vertices2, "Obstacle1"));
 
 		int wallSize = 100;
-		Player player = new Player(50,5.0*wallSize,6.0*wallSize, 0.0, map);
+		Player player = new Player("Player", 50,5.0*wallSize,6.0*wallSize, 0.0, map);
 
 		loop(window, player);
 

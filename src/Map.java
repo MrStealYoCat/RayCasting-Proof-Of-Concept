@@ -28,20 +28,38 @@ public class Map {
 		List<CollisionBox> collisionBoxes = obstacle.getCollisionBoxes();
 		int collisionSize = obstacle.getCollisionSize();
 		for (int i=0; i<collisionBoxes.size(); i++) {
+			Double rotationRight = collisionBoxes.get(i).getRotation();
+			Double rotationLeft = rotationRight - 90;
 			Double x1 = collisionBoxes.get(i).getVertices()[0];
 			Double y1 = collisionBoxes.get(i).getVertices()[1];
 			Double x2 = collisionBoxes.get(i).getVertices()[4];
 			Double y2 = collisionBoxes.get(i).getVertices()[5];
-			Double rotation = collisionBoxes.get(i).getRotation();
-			//System.out.printf("Rotation: %f\n", rotation);
+			System.out.printf("%f %f\n%f %f\n\n",
+							Obstacle.calculateRotation(x1, colliderX, y1, colliderY), rotationRight,
+							Obstacle.calculateRotation(x2, colliderX, y2, colliderY), rotationRight - 180);
 			if (
-					Obstacle.calculateRotation(x1, colliderX, y1, colliderY) <= rotation
-			 && Obstacle.calculateRotation(x1, colliderX, y1, colliderY) >= rotation - 90
-			 && Obstacle.calculateRotation(x2, colliderX, y2, colliderY) <= rotation - 180
-			 && Obstacle.calculateRotation(x2, colliderX, y2, colliderY) >= rotation - 270
+							Obstacle.calculateRotation(x1, colliderX, y1, colliderY) <= rotationRight
+							&& Obstacle.calculateRotation(x1, colliderX, y1, colliderY) >= rotationLeft
+							&& Obstacle.calculateRotation(x2, colliderX, y2, colliderY) <= rotationRight - 180
+							&& Obstacle.calculateRotation(x2, colliderX, y2, colliderY) >= rotationLeft - 180
 			) {
 				return true;
 			}
+//			Double rotationRight = (collisionBoxes.get(i).getRotation());
+//			Double rotationLeft = (rotationRight - 90);
+//			Double pointRotation1 = Obstacle.calculateRotation(x1, colliderX, y1, colliderY);
+//			Double pointRotation2 = Obstacle.calculateRotation(x2, colliderX, y2, colliderY);
+//			System.out.println(pointRotation2);
+//			//System.out.printf("Rotation: %f\n", rotationRight);
+//			if (
+//					pointRotation1 <= rotationRight
+//			 && pointRotation1 >= rotationLeft
+//			 && pointRotation2 <= (rotationRight + 180)
+//			 && pointRotation2 >= (rotationLeft + 180)
+//			) {
+//				System.out.println("Return True!");
+//				return true;
+//			}
 		}
 
 		return false;

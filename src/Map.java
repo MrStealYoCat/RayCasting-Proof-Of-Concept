@@ -4,6 +4,8 @@ import java.util.List;
 public class Map {
 	private static final int WALL_SIZE = 100;
 	public static final int WALL_HEIGHT = 90;
+	public static final int MAP_WIDTH = 2000;
+	public static final int MAP_HEIGHT = 2000;
 	private final int[][] mapArray;
 	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 

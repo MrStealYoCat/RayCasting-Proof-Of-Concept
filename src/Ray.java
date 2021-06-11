@@ -23,17 +23,23 @@ public class Ray {
 			while (true) {
 				// X Collision
 				rays[i].setEndX((rays[i].getEndX() + rays[i].getRun()));
+				if (
+								(rays[i].getEndX() > Map.MAP_WIDTH)
+						 || (rays[i].getEndX() < 0)
+						 || (rays[i].getEndY() > Map.MAP_HEIGHT)
+						 || (rays[i].getEndY() < 0)
+						 ||	map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY())
+				) {
+					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+					rays[i].setColor(Color.RED);
+					break;
+				}
 				if ( map.didCollideWalls(rays[i].getEndX(), rays[i].getEndY(), rays[i].getEndZ()) ) {
 					//rays[i].setLastY(rays[i].getLastY() + rays[i].getRise());
 					System.out.printf("Collided X @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.BLUE);
 					break;
 				}
-//				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
-//					System.out.printf("Collided X on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
-//					rays[i].setColor(Color.RED);
-//					break;
-//				}
 //				if ( map.didCollideObstacle(map.getObstacle(0), rays[i].getEndX(), rays[i].getEndY()) ) {
 //					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 //					rays[i].setColor(Color.RED);
@@ -43,6 +49,17 @@ public class Ray {
 
 				// Y Collision
 				rays[i].setEndY((rays[i].getEndY() + rays[i].getRise()));
+				if (
+								(rays[i].getEndX() > Map.MAP_WIDTH)
+						 || (rays[i].getEndX() < 0)
+						 || (rays[i].getEndY() > Map.MAP_HEIGHT)
+						 || (rays[i].getEndY() < 0)
+						 ||	map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY())
+				) {
+					System.out.printf("Collided Y on Obstacle @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
+					rays[i].setColor(Color.RED);
+					break;
+				}
 				if ( map.didCollideWalls(rays[i].getEndX(),rays[i].getEndY(), rays[i].getEndZ()) ) {
 					System.out.printf("Collided Y @ (%f,%f)!\n", rays[i].getEndX(), rays[i].getEndY());
 					rays[i].setColor(Color.GREEN);

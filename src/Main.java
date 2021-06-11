@@ -53,7 +53,7 @@ public class Main {
 						600.0,600.0,
 						600.0,500.0
 		};
-		map.addObstacle(new Obstacle(5,vertices2));
+		map.addObstacle(new Obstacle(1,vertices));
 
 		int wallSize = 100;
 		Player player = new Player(50,5.0*wallSize,6.0*wallSize, 0.0, map);

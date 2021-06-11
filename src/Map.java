@@ -17,16 +17,15 @@ public class Map {
 	// obstacle rather than just parallel cubes.
 	public boolean didCollideAnyObstacle(double colliderX, double colliderY) {
 		for (int i=0; i<obstacles.size();i++) {
-			if ( didCollideObstacle(obstacles.get(i),colliderX,colliderY) ) {
+			if ( didCollideObstacle(obstacles.get(i).getCollisionBoxes(),colliderX,colliderY) ) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean didCollideObstacle(Obstacle obstacle, double colliderX, double colliderY) {
-		List<CollisionBox> collisionBoxes = obstacle.getCollisionBoxes();
-		int collisionSize = obstacle.getCollisionSize();
+	public boolean didCollideObstacle(List<CollisionBox> collisionBoxes, double colliderX, double colliderY) {
+		//System.out.println(collisionBoxes.size());
 		for (int i=0; i<collisionBoxes.size(); i++) {
 			Double rotationRight = collisionBoxes.get(i).getRotation();
 			Double rotationLeft = rotationRight - 90;
@@ -34,9 +33,11 @@ public class Map {
 			Double y1 = collisionBoxes.get(i).getVertices()[1];
 			Double x2 = collisionBoxes.get(i).getVertices()[4];
 			Double y2 = collisionBoxes.get(i).getVertices()[5];
-			System.out.printf("%f %f\n%f %f\n\n",
-							Obstacle.calculateRotation(x1, colliderX, y1, colliderY), rotationRight,
-							Obstacle.calculateRotation(x2, colliderX, y2, colliderY), rotationRight - 180);
+			//System.out.printf("%f , %f\n", colliderX, colliderY);
+//			System.out.printf("%f, %f, %f, %f\n%f %f %f\n%f %f %f\n\n",
+//							x1, y1, x2, y2,
+//							rotationLeft, Obstacle.calculateRotation(x1, colliderX, y1, colliderY), rotationRight,
+//							rotationLeft - 180, Obstacle.calculateRotation(x2, colliderX, y2, colliderY), rotationRight - 180);
 			if (
 							Obstacle.calculateRotation(x1, colliderX, y1, colliderY) <= rotationRight
 							&& Obstacle.calculateRotation(x1, colliderX, y1, colliderY) >= rotationLeft
@@ -61,7 +62,7 @@ public class Map {
 //				return true;
 //			}
 		}
-
+		//System.out.println();
 		return false;
 	}
 

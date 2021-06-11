@@ -11,36 +11,49 @@ public class Player extends Sprite {
 
 	/* Checks normal game keys for movement or rotation */
 	public void keyPressed() {
+
+		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_LEFT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_A)) {
+			if (!didPlayerCollide()) {
+				posX += Ray.calculateRunD(5.0,rotation + 90.0);
+				posY += Ray.calculateRiseD(5.0,rotation + 90.0);
+				Frame.updateAndDrawWalls(this);
+			}
+		}
+		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_D)) {
+			if (!didPlayerCollide()) {
+				posX += Ray.calculateRunD(5.0, rotation - 90.0);
+				posY += Ray.calculateRiseD(5.0, rotation - 90.0);
+				Frame.updateAndDrawWalls(this);
+			}
+		}
+		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_DOWN) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_S)) {
+			if (!didPlayerCollide()) {
+				posX += Ray.calculateRunD(5.0, rotation + 180.0);
+				posY += Ray.calculateRiseD(5.0, rotation + 180.0);
+				Frame.updateAndDrawWalls(this);
+			}
+		}
+		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_UP) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_W)) {
+			if (!didPlayerCollide()) {
+				posX += Ray.calculateRunD(5.0, 1.0 * rotation);
+				posY += Ray.calculateRiseD(5.0, 1.0 * rotation);
+				Frame.updateAndDrawWalls(this);
+				//System.out.println(posX + " " + posY);
+			}
+		}
+	}
+
+	private boolean didPlayerCollide() {
 		if (map.didCollideWalls(posX, posY, posZ)
-		 || map.didCollideAnyObstacle(posX,posY)
-			 ) {
+						|| map.didCollideAnyObstacle(posX,posY)
+		) {
 			posX = lastX;
 			posY = lastY;
-			return;
+			return true;
 		}
 		lastX = posX;
 		lastY = posY;
-		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_LEFT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_A)) {
-			posX += Ray.calculateRunD(5.0,rotation + 90.0);
-			posY += Ray.calculateRiseD(5.0,rotation + 90.0);
-			Frame.updateAndDrawWalls(this);
-		}
-		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_RIGHT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_D)) {
-			posX += Ray.calculateRunD(5.0,rotation - 90.0);
-			posY += Ray.calculateRiseD(5.0,rotation - 90.0);
-			Frame.updateAndDrawWalls(this);
-		}
-		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_DOWN) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_S)) {
-			posX += Ray.calculateRunD(5.0,rotation + 180.0);
-			posY += Ray.calculateRiseD(5.0,rotation + 180.0);
-			Frame.updateAndDrawWalls(this);
-		}
-		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_UP) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_W)) {
-			posX += Ray.calculateRunD(5.0,1.0*rotation);
-			posY += Ray.calculateRiseD(5.0,1.0*rotation);
-			Frame.updateAndDrawWalls(this);
-			//System.out.println(posX + " " + posY);
-		}
+		return false;
 	}
 
 	/* Check is mouse has been moved on the x plane for player rotation */

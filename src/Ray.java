@@ -63,6 +63,8 @@ public class Ray {
 					break;
 				}
 			}
+			System.out.println("----------- Collided with something ----------");
+			System.out.printf("          ( %f , %f )\n\n\n", rays[i].getEndX(), rays[i].getEndY());
 			rays[i].setDrawWidth((float)(2.0/rays.length));
 			rays[i].setDrawHeight((float)(Map.WALL_HEIGHT /rays[i].getDistance()*4));
 			rays[i].setDrawX((float)(-1+(2.0/(rays.length))*i));
@@ -85,15 +87,16 @@ public class Ray {
 	}
 
 	public static final int RAY_COUNT = 180;
-	public static final Double MOVE_DISTANCE = 50.0;
+	public static final Double MOVE_DISTANCE = 10.0;
 	private final double startX;
 	private final double startY;
 	private final double startZ;
 	private double endX;
 	private double endY;
 	private double endZ;
-	private final double rise;
-	private final double run;
+	private double rise;
+	private double run;
+	private double rotation;
 	private Color color;
 	private float drawWidth;
 	private float drawHeight;
@@ -110,6 +113,13 @@ public class Ray {
 
 		rise = calculateRiseD(MOVE_DISTANCE,rotation);
 		run = calculateRunD(MOVE_DISTANCE,rotation);
+		this.rotation = rotation;
+	}
+
+	public void reset() {
+		endX = startX;
+		endY = startY;
+		endZ = startZ;
 	}
 
 	public double getEndX() {

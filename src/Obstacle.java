@@ -74,16 +74,13 @@ public class Obstacle {
 	public static Double calculateRotation(Double x1, Double x2, Double y1, Double y2) {
 		double rise = y2-y1;
 		double run = x2-x1;
-		double rotation = 1.0 * (rise/Math.abs(rise))*90;
+		double rotation = 0;
 		if (run != 0) {
 			rotation = (Math.atan(rise/run)*180/3.14159);
 		}
 		// Account for run being negative else arcTangent will always rotate run positive
 		if (rise == 0 && run < 0) {
 			rotation = 180;
-		}
-		if (rotation < 0) {
-			rotation += 360;
 		}
 		return rotation;
 	}

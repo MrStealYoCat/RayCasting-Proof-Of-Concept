@@ -54,4 +54,9 @@ public class Sprite {
 	public CollisionBox getCollisionBox() {
 		return collisionBox;
 	}
+	public void collisionBoxToPos(double posX, double posY) {
+		collisionBox.setPosX(posX-size/2);
+		collisionBox.setPosY(posY-size/2);
+		collisionBox.calculateVertices();
+	}
 }

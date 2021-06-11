@@ -16,6 +16,7 @@ public class Player extends Sprite {
 			if (!didPlayerCollide()) {
 				posX += Ray.calculateRunD(5.0,rotation + 90.0);
 				posY += Ray.calculateRiseD(5.0,rotation + 90.0);
+				collisionBoxToPos(posX,posY);
 				Frame.updateAndDrawWalls(this);
 			}
 		}
@@ -23,6 +24,7 @@ public class Player extends Sprite {
 			if (!didPlayerCollide()) {
 				posX += Ray.calculateRunD(5.0, rotation - 90.0);
 				posY += Ray.calculateRiseD(5.0, rotation - 90.0);
+				collisionBoxToPos(posX,posY);
 				Frame.updateAndDrawWalls(this);
 			}
 		}
@@ -30,6 +32,7 @@ public class Player extends Sprite {
 			if (!didPlayerCollide()) {
 				posX += Ray.calculateRunD(5.0, rotation + 180.0);
 				posY += Ray.calculateRiseD(5.0, rotation + 180.0);
+				collisionBoxToPos(posX,posY);
 				Frame.updateAndDrawWalls(this);
 			}
 		}
@@ -37,6 +40,7 @@ public class Player extends Sprite {
 			if (!didPlayerCollide()) {
 				posX += Ray.calculateRunD(5.0, 1.0 * rotation);
 				posY += Ray.calculateRiseD(5.0, 1.0 * rotation);
+				collisionBoxToPos(posX,posY);
 				Frame.updateAndDrawWalls(this);
 				//System.out.println(posX + " " + posY);
 			}
@@ -45,15 +49,17 @@ public class Player extends Sprite {
 
 	//TODO fix player collision with new coordinate system
 	private boolean didPlayerCollide() {
+		System.out.printf("%f, %f, %f, %f\n",collisionBox.getVertices()[0],collisionBox.getVertices()[2],collisionBox.getVertices()[4],collisionBox.getVertices()[6]);
 		if (
-				//map.didCollideWalls(posX, posY, posZ) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
 		) {
+			System.out.println("Collided!");
 			posX = lastX;
 			posY = lastY;
+			collisionBoxToPos(posX,posY);
 			return true;
 		}
 		lastX = posX;

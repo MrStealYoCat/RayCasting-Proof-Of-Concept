@@ -1,3 +1,5 @@
+package map_utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,20 +7,18 @@ public class Map {
 	public static final int WALL_HEIGHT = 90;
 	private final int length;
 	private final int width;
-	private final int height;
-	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
+	private final List<Obstacle> obstacles = new ArrayList<>();
 
-	public Map(int length, int width, int height) {
+	public Map(int length, int width) {
 		this.length = length;
 		this.width = width;
-		this.height = height;
 	}
 
-	//TODO calculate collision in terms of hitting an
-	// obstacle rather than just parallel cubes.
+	//TODO calculate collision in terms of hitting any
+	// shaped object rather than just parallel cubes.
 	public boolean didCollideAnyObstacle(double colliderX, double colliderY) {
-		for (int i=0; i<obstacles.size();i++) {
-			if ( didCollideObstacle(obstacles.get(i),colliderX,colliderY) ) {
+		for (Obstacle obstacle : obstacles) {
+			if ( didCollideObstacle(obstacle,colliderX,colliderY) ) {
 				return true;
 			}
 		}
@@ -35,11 +35,7 @@ public class Map {
 						|| (colliderY > length)
 						|| (colliderY < 0);
 	}
-
 	public void addObstacle(Obstacle obstacle) {
 		obstacles.add(obstacle);
-	}
-	public Obstacle getObstacle(int index) {
-		return obstacles.get(index);
 	}
 }

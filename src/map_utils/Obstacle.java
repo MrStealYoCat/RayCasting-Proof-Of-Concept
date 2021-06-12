@@ -1,11 +1,13 @@
+package map_utils;
+
+import sprites.Ray;
 import java.util.*;
 
 public class Obstacle {
 
-	private Double[] vertices;
-	private List<CollisionBox> collisionBoxes = new ArrayList<CollisionBox>();
-	private int collisionSize;
-	private String name;
+	private final Double[] vertices;
+	private final List<CollisionBox> collisionBoxes = new ArrayList<>();
+	private final String name;
 
 	public Obstacle(int collisionSize, Double[] vertices, String name) {
 		this.name = name;
@@ -20,7 +22,6 @@ public class Obstacle {
 			);
 		}
 		this.vertices = vertices;
-		this.collisionSize = collisionSize;
 		addCollisionBoxes(collisionSize);
 		//showCollision();
 	}
@@ -63,10 +64,8 @@ public class Obstacle {
 		collisionBoxes.add(new CollisionBox(
 			x1,
 			y1,
-			0,
 			wholeDistance,
 			width,
-			Map.WALL_HEIGHT,
 			rotation
 		));
 	}
@@ -82,9 +81,6 @@ public class Obstacle {
 							"Collision boxes haven't been set yet!!!"
 			);
 		}
-	}
-	public int getCollisionSize() {
-		return collisionSize;
 	}
 	public void showCollision() {
 		for (CollisionBox b : collisionBoxes) {

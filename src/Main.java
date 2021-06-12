@@ -1,4 +1,8 @@
+import map_utils.Map;
+import map_utils.Obstacle;
 import org.lwjgl.opengl.*;
+
+import java.util.Objects;
 
 import static controlListeners.MouseListener.*;
 import static org.lwjgl.glfw.Callbacks.*;
@@ -10,23 +14,17 @@ public class Main {
 	public static void main(String[] args) {
 		Window window = new Window("My Window", 1000, 1000);
 
-		Map map = new Map(1000,1000,100);
+		Map map = new Map(3000,3000);
 
 		Double[] vertices = {
-						200.0,200.0,
-						200.0,300.0,
-						300.0,200.0
-		};
-
-		Double[] vertices2 = {
 						400.0,400.0,
-						400.0,600.0,
-						600.0,600.0,
-						600.0,400.0
+						400.0,800.0,
+						800.0,800.0,
+						800.0,400.0
 		};
-		map.addObstacle(new Obstacle(100,vertices2, "Obstacle1"));
+		map.addObstacle(new Obstacle(100,vertices, "Obstacle1"));
 
-		Player player = new Player("Player", 50,200,200, 0.0, map);
+		Player player = new Player("Player", 50,200,200, map);
 
 		loop(window, player);
 
@@ -39,7 +37,7 @@ public class Main {
 
 		// Terminate GLFW and free the error callback
 		glfwTerminate();
-		glfwSetErrorCallback(null).free();
+		Objects.requireNonNull(glfwSetErrorCallback(null)).free();
 	}
 
 	/* Game Loop Function */

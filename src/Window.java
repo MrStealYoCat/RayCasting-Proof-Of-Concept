@@ -12,8 +12,8 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Window {
 
 	private final String title;
-	private int width;
-	private int height;
+	private final int width;
+	private final int height;
 
 	// What LWJGL uses to keep track of the window
 	private long windowHandle;
@@ -63,11 +63,15 @@ public class Window {
 			GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 			// Center the window
-			glfwSetWindowPos(
-							windowHandle,
-							(vidMode.width() - pWidth.get(0)) / 10,
-							(vidMode.height() - pHeight.get(0)) / 2
-			);
+			if (vidMode != null) {
+				glfwSetWindowPos(
+								windowHandle,
+								(vidMode.width() - pWidth.get(0)) / 10,
+								(vidMode.height() - pHeight.get(0)) / 2
+				);
+			} else {
+				throw new IllegalStateException("vidMode width cannot be null!");
+			}
 		} // the stack frame is popped automatically
 
 		// Make the OpenGL context current

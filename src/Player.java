@@ -1,15 +1,19 @@
+import map_utils.Map;
+import sprites.Ray;
+import sprites.Sprite;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends Sprite {
 
 	private final Map map;
 
-	public Player(String name, int size, double posX, double posY, double posZ, Map map) {
-		super(name, size, posX, posY, posZ);
+	public Player(String name, int size, double posX, double posY, Map map) {
+		super(name, size, posX, posY);
 		this.map = map;
 	}
 
-	/* Checks normal game keys for movement or rotation */
+	/* Checks normal game keys for movement */
 	public void keyPressed() {
 
 		if (controlListeners.KeyListener.isKeyPressed(GLFW_KEY_LEFT) || controlListeners.KeyListener.isKeyPressed(GLFW_KEY_A)) {
@@ -29,12 +33,12 @@ public class Player extends Sprite {
 	private void move(double rotation) {
 		//Check X collision
 		collisionBoxToPos(posX + Ray.calculateRunD(5.0, rotation), posY);
-		if (!didPlayerCollide()) {
+		if (playerDidNotCollide()) {
 			posX += Ray.calculateRunD(5.0, rotation);
 			lastX = posX;
 		}
 		collisionBoxToPos(posX,posY + Ray.calculateRiseD(5.0, rotation));
-		if (!didPlayerCollide()) {
+		if (playerDidNotCollide()) {
 			posY += Ray.calculateRiseD(5.0, rotation);
 			lastY = posY;
 		}
@@ -42,21 +46,13 @@ public class Player extends Sprite {
 		Frame.updateAndDrawWalls(this);
 	}
 
-	private boolean didPlayerCollide() {
-//		System.out.printf("%f, %f - ( %f , %f ) - %f, %f\n",
-//						collisionBox.getVertices()[0],collisionBox.getVertices()[1],
-//						posX,posY,
-//						collisionBox.getVertices()[4],collisionBox.getVertices()[5]);
-		if (
+	private boolean playerDidNotCollide() {
+		return !(
 				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
 				map.didCollideAnyObstacle(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
-		) {
-			//System.out.println("Collided!");
-			return true;
-		}
-		return false;
+		);
 	}
 
 	/* Check is mouse has been moved on the x plane for player rotation */

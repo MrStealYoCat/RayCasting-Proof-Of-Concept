@@ -1,3 +1,5 @@
+import sprites.Ray;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Frame {
@@ -18,7 +20,6 @@ public class Frame {
 						player.getRotation(),
 						player.getPosX(),
 						player.getPosY(),
-						player.getPosZ(),
 						player.getPlayerMap()
 		);
 		drawWalls(player);

@@ -57,26 +57,33 @@ public class Frame {
 			);
 			glEnd();
 
-			// Draw floor as well
-			glBegin(GL_QUADS);
-			glColor3f((float)0.5,(float)0.5,(float)0.5);
-			glVertex2f(
-							rays[i].getDrawX(),
+			drawFloor(rays[i].getDrawX(),
+							rays[i].getDrawWidth(),
 							rays[i].getDrawY()-rays[i].getDrawHeight()
 			);
-			glVertex2f(
-							rays[i].getDrawX(),
-							-1
-			);
-			glVertex2f(
-							rays[i].getDrawX()+rays[i].getDrawWidth(),
-							-1
-			);
-			glVertex2f(
-							rays[i].getDrawX()+rays[i].getDrawWidth(),
-							rays[i].getDrawY()-rays[i].getDrawHeight()
-			);
-			glEnd();
 		}
+	}
+
+	public static void drawFloor(float drawX,float drawWidth,float drawYOffset) {
+		// Draw floor as well
+		glBegin(GL_QUADS);
+		glColor3f((float)0.5,(float)0.5,(float)0.5);
+		glVertex2f(
+						drawX,
+						drawYOffset
+		);
+		glVertex2f(
+						drawX,
+						-1
+		);
+		glVertex2f(
+						drawX+drawWidth,
+						-1
+		);
+		glVertex2f(
+						drawX+drawWidth,
+						drawYOffset
+		);
+		glEnd();
 	}
 }

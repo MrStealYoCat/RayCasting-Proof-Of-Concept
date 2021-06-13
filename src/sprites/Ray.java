@@ -19,8 +19,9 @@ public class Ray {
 		int startRays = 60 + rotation;
 		int endRays = -60 + rotation;
 		double rayDistanceBetween = 1.0*(startRays-endRays)/(RAY_COUNT -1);
+		//double playerToProjection = 500/(Math.tan(60*3.14159/180));
 		for (int i=0;i<rays.length;i++) {
-			rays[i] = new Ray(posX,posY,startRays-i*rayDistanceBetween);
+			rays[i] = new Ray(posX,posY,(startRays-i*rayDistanceBetween) % 360);
 		}
 		// Calculate collision
 		for (int i=0; i<rays.length; i++) {
@@ -50,7 +51,7 @@ public class Ray {
 			}
 			rays[i].setDrawWidth((float)(2.0/rays.length));
 			rays[i].setDrawHeight( (float)
-							(Map.WALL_HEIGHT /rays[i].getDistance())
+							(Map.WALL_HEIGHT /( rays[i].getDistance() ))
 			);
 			rays[i].setDrawX((float)(-1+(2.0/(rays.length))*i));
 			rays[i].setDrawY((float)((rays[i].getDrawHeight()/2.0)));
@@ -127,7 +128,6 @@ public class Ray {
 	}
 	public double getDistance() {
 		return Math.sqrt( Math.pow(startX- endX,2) + Math.pow(startY- endY,2) );
-		//return Math.cos(rotation*(3.14159/180))*dp;
 	}
 	public Color getColor() {
 		return color;

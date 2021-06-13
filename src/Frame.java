@@ -1,5 +1,7 @@
 import sprites.Ray;
 
+import java.awt.*;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Frame {
@@ -52,6 +54,27 @@ public class Frame {
 			glVertex2f(
 							rays[i].getDrawX()+rays[i].getDrawWidth(),
 							rays[i].getDrawY()
+			);
+			glEnd();
+
+			// Draw floor as well
+			glBegin(GL_QUADS);
+			glColor3f((float)0.5,(float)0.5,(float)0.5);
+			glVertex2f(
+							rays[i].getDrawX(),
+							rays[i].getDrawY()-rays[i].getDrawHeight()
+			);
+			glVertex2f(
+							rays[i].getDrawX(),
+							-1
+			);
+			glVertex2f(
+							rays[i].getDrawX()+rays[i].getDrawWidth(),
+							-1
+			);
+			glVertex2f(
+							rays[i].getDrawX()+rays[i].getDrawWidth(),
+							rays[i].getDrawY()-rays[i].getDrawHeight()
 			);
 			glEnd();
 		}

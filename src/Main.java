@@ -22,7 +22,15 @@ public class Main {
 						800.0,800.0,
 						800.0,400.0
 		};
+
+		Double[] vertices2 = {
+						1000.0,1000.0,
+						1000.0,1400.0,
+						1400.0,1400.0,
+						1400.0,1000.0
+		};
 		map.addObstacle(new Obstacle(100,vertices, "Obstacle1"));
+		map.addObstacle(new Obstacle(100,vertices2,"Obstacle 2"));
 
 		Player player = new Player("Player", 50,200,200, map);
 

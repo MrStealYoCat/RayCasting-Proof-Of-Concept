@@ -28,6 +28,10 @@ public class Ray {
 				// X Collision
 				rays[i].setEndX((rays[i].getEndX() + rays[i].getRun()));
 				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+					rays[i].setColor(Color.RED);
+					break;
+				}
+				if ( map.didCollideMapBoundary(rays[i].getEndX(),rays[i].getEndY()) ) {
 					rays[i].setColor(Color.BLUE);
 					break;
 				}
@@ -36,6 +40,10 @@ public class Ray {
 				// Y Collision
 				rays[i].setEndY((rays[i].getEndY() + rays[i].getRise()));
 				if ( map.didCollideAnyObstacle(rays[i].getEndX(),rays[i].getEndY()) ) {
+					rays[i].setColor(Color.ORANGE);
+					break;
+				}
+				if ( map.didCollideMapBoundary(rays[i].getEndX(),rays[i].getEndY()) ) {
 					rays[i].setColor(Color.GREEN);
 					break;
 				}

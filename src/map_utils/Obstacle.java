@@ -1,15 +1,19 @@
 package map_utils;
 
 import sprites.Ray;
+
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Obstacle {
 
 	private final Double[] vertices;
 	private final List<CollisionBox> collisionBoxes = new ArrayList<>();
 	private final String name;
+	private Color color;
 
-	public Obstacle(int collisionSize, Double[] vertices, String name) {
+	public Obstacle(int collisionSize, Double[] vertices, String name, Color color) {
 		this.name = name;
 		if (vertices.length % 2 != 0) {
 			throw new IllegalArgumentException(
@@ -22,8 +26,13 @@ public class Obstacle {
 			);
 		}
 		this.vertices = vertices;
+		this.color = color;
 		addCollisionBoxes(collisionSize);
 		//showCollision();
+	}
+	public Obstacle(int collisionSize, Double[] vertices, String name) {
+		this(collisionSize,vertices,name,null);
+
 	}
 
 	private void addCollisionBoxes(int collisionSize) {

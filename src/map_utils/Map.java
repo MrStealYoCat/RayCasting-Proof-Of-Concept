@@ -25,15 +25,19 @@ public class Map {
 		return false;
 	}
 
+	public boolean didCollideMapBoundary(double colliderX, double colliderY) {
+		return (
+						(colliderX > width)
+						|| (colliderX < 0)
+						|| (colliderY > length)
+						|| (colliderY < 0)
+						);
+	}
 	public boolean didCollideObstacle(Obstacle obstacle, double colliderX, double colliderY) {
 		return (
 						obstacle.getVertices()[0] <= colliderX && colliderX <= obstacle.getVertices()[4]
 						&& obstacle.getVertices()[1] <= colliderY && colliderY <= obstacle.getVertices()[5]
-						)
-						|| (colliderX > width)
-						|| (colliderX < 0)
-						|| (colliderY > length)
-						|| (colliderY < 0);
+						);
 	}
 	public void addObstacle(Obstacle obstacle) {
 		obstacles.add(obstacle);

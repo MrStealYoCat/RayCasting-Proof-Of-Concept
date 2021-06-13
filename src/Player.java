@@ -48,10 +48,10 @@ public class Player extends Sprite {
 
 	private boolean playerDidNotCollide() {
 		return !(
-				map.didCollideAnyObstacle(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
-				map.didCollideAnyObstacle(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
-				map.didCollideAnyObstacle(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
-				map.didCollideAnyObstacle(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
+				map.didCollideAnything(collisionBox.getVertices()[0],collisionBox.getVertices()[1]) ||
+				map.didCollideAnything(collisionBox.getVertices()[2],collisionBox.getVertices()[3]) ||
+				map.didCollideAnything(collisionBox.getVertices()[4],collisionBox.getVertices()[5]) ||
+				map.didCollideAnything(collisionBox.getVertices()[6],collisionBox.getVertices()[7])
 		);
 	}
 

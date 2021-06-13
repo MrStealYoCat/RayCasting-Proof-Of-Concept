@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-	public static final int WALL_HEIGHT = 90;
+	public static final int WALL_HEIGHT = 120;
 	private final int length;
 	private final int width;
 	private final List<Obstacle> obstacles = new ArrayList<>();
@@ -24,7 +24,10 @@ public class Map {
 		}
 		return false;
 	}
-
+  public boolean didCollideAnything(double colliderX, double colliderY) {
+		return ( didCollideAnyObstacle(colliderX,colliderY)
+						|| didCollideMapBoundary(colliderX,colliderY) );
+	}
 	public boolean didCollideMapBoundary(double colliderX, double colliderY) {
 		return (
 						(colliderX > width)

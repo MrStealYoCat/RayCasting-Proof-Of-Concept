@@ -84,8 +84,8 @@ public class Ray {
 		return rotation;
 	}
 
-	public static final int RAY_COUNT = 180;
-	public static final Double MOVE_DISTANCE = 10.0;
+	public static final int RAY_COUNT = 480;
+	public static final Double MOVE_DISTANCE = 1.0;
 	private final double startX;
 	private final double startY;
 	private double endX;

@@ -1,6 +1,9 @@
+import display.Frame;
+import display.Window;
 import map_utils.Map;
 import map_utils.Obstacle;
 import org.lwjgl.opengl.*;
+import sprites.Player;
 
 import java.util.Objects;
 
@@ -12,7 +15,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
 public class Main {
 	public static void main(String[] args) {
-		Window window = new Window("My Window", 1000, 1000);
+		Window window = new Window("My display.Window", 1000, 1000);
 
 		Map map = new Map(3000,3000);
 
@@ -32,7 +35,7 @@ public class Main {
 		map.addObstacle(new Obstacle(100,vertices, "Obstacle1"));
 		map.addObstacle(new Obstacle(100,vertices2,"Obstacle 2"));
 
-		Player player = new Player("Player", 50,200,200, map);
+		Player player = new Player("sprites.Player", 50,200,200, map);
 
 		loop(window, player);
 

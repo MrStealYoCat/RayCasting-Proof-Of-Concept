@@ -1,3 +1,6 @@
+package sprites;
+
+import display.Frame;
 import map_utils.Map;
 import sprites.Ray;
 import sprites.Sprite;

@@ -1,3 +1,5 @@
+package display;
+
 import controlListeners.KeyListener;
 import controlListeners.MouseListener;
 import org.lwjgl.glfw.*;

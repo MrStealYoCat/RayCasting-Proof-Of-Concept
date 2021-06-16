@@ -1,6 +1,7 @@
-import sprites.Ray;
+package display;
 
-import java.awt.*;
+import sprites.Player;
+import sprites.Ray;
 
 import static org.lwjgl.opengl.GL11.*;
 

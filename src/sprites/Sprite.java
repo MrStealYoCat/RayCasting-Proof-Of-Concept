@@ -13,7 +13,7 @@ public class Sprite {
 	protected CollisionBox collisionBox;
 	protected int rotation = -90;
 
-	//TODO add other sprite objects to the game besides Player
+	//TODO add other sprite objects to the game besides sprites.Player
 	public Sprite(String name, int size, double posX, double posY) {
 		this.name = name;
 		this.size = size;

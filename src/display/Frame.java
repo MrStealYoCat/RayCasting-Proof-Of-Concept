@@ -62,6 +62,7 @@ public class Frame {
 							rays[i].getDrawWidth(),
 							rays[i].getDrawY()-rays[i].getDrawHeight()
 			);
+			drawCeiling(rays[i].getDrawX(), rays[i].getDrawWidth(), rays[i].getDrawY());
 		}
 	}
 
@@ -84,6 +85,27 @@ public class Frame {
 		glVertex2f(
 						drawX+drawWidth,
 						drawYOffset
+		);
+		glEnd();
+	}
+	public static void drawCeiling(float drawX,float drawWidth, float drawY) {
+		glBegin(GL_QUADS);
+		glColor3f((float)0.2,(float)0.2,(float)0.2);
+		glVertex2f(
+						drawX,
+						1
+		);
+		glVertex2f(
+						drawX,
+						drawY
+		);
+		glVertex2f(
+						drawX+drawWidth,
+						drawY
+		);
+		glVertex2f(
+						drawX+drawWidth,
+						1
 		);
 		glEnd();
 	}

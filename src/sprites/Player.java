@@ -1,5 +1,6 @@
 package sprites;
 
+import controlListeners.KeyListener;
 import display.Frame;
 import map_utils.Map;
 import sprites.Ray;

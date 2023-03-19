@@ -1,3 +1,5 @@
+import controlListeners.KeyListener;
+import controlListeners.MouseListener;
 import display.Frame;
 import display.Window;
 import map_utils.Map;
@@ -36,6 +38,8 @@ public class Main {
 		map.addObstacle(new Obstacle(100,vertices2,"Obstacle 2"));
 
 		Player player = new Player("sprites.Player", 50,200,200, map);
+		KeyListener.setPlayerInstance(player);
+		MouseListener.setPlayerInstance(player);
 
 		loop(window, player);
 
@@ -81,7 +85,7 @@ public class Main {
 
 			player.keyPressed();
 			player.mouseMoved();
-			endMouseFrame();
+			//endMouseFrame();
 
 			glFlush(); // render now
 

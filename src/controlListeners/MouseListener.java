@@ -1,5 +1,7 @@
 package controlListeners;
 
+import sprites.Player;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
@@ -12,6 +14,7 @@ public class MouseListener {
 	private double lastY;
 	private final boolean[] mouseButtonPressed = new boolean[GLFW_MOUSE_BUTTON_LAST+1];
 	private boolean isDragging;
+	private Player player;
 
 	private MouseListener() {
 
@@ -30,6 +33,7 @@ public class MouseListener {
 		get().xPos = xPos;
 		get().yPos = yPos;
 		get().isDragging = isPressed();
+		//get().player.mouseMoved();
 	}
 
 	private static boolean isPressed() {
@@ -89,5 +93,9 @@ public class MouseListener {
 		} else {
 			return false;
 		}
+	}
+
+	public static void setPlayerInstance(Player player) {
+		get().player = player;
 	}
 }
